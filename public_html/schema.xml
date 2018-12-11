@@ -1,0 +1,29 @@
+<database name="labcheck" defaultIdMethod="native">
+  <!-- table definitions go here -->
+  <table name="admin" phpName="Admin">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="64" required="true" />
+    <column name="emailAddress" type="varchar" size="128" required="true" />
+    <column name="passwordHash" type="varchar" size="128" required="true" />
+  </table>
+   <table name="course" phpName="Course">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="64" required="true" />
+  </table>
+  <table name="labvisit" phpName="LabVisit">
+	<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+	<column name="checkin" type="DATETIME" required="true"/>
+	<column name="checkout" type="DATETIME"/>
+	<foreign-key foreignTable="course" onDelete="setnull" onUpdate="cascade">
+    	<reference local="courseid" foreign="id" />
+ 	 </foreign-key>
+  </table>
+   <table name="tutor" phpName="Tutor">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="64" required="true" />
+  </table>
+   <table name="labspecialist" phpName="LabSpecialist">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="64" required="true" />
+  </table>
+</database>
