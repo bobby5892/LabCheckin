@@ -12,8 +12,9 @@
   </table>
   <table name="labvisit" phpName="LabVisit">
 	<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-	<column name="checkin" type="DATETIME" required="true"/>
-	<column name="checkout" type="DATETIME"/>
+	<column name="checkin" type="timestamp" required="true"/>
+	<column name="checkout" type="timestamp"/>
+  <column name="courseid" type="integer"/>
 	<foreign-key foreignTable="course" onDelete="setnull" onUpdate="cascade">
     	<reference local="courseid" foreign="id" />
  	 </foreign-key>

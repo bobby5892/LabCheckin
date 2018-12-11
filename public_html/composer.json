@@ -1,5 +1,10 @@
 {
     "require": {
        "propel/propel": "~2.0@dev"
-    }
+    },
+    "autoload": {
+		"psr-4": { "": ""},
+		 "classmap": ["generated-classes/"]
+	}
+
 }

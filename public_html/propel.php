@@ -3,24 +3,16 @@ return [
     'propel' => [
         'database' => [
             'connections' => [
-                'mysource' => [
-                    'adapter'    => 'mysql',
-                    'classname'  => 'Propel\Runtime\Connection\DebugPDO',
-                    'dsn'        => 'mysql:host=localhost;dbname=labcheck',
-                    'user'       => 'root',
-                    'password'   => '',
-                    'attributes' => []
+                'labcheck' => [
+                    'adapter' => 'mysql',
+                    'dsn' => 'mysql:host=localhost;port=3306;dbname=labcheck',
+                    'user' => 'root',
+                    'password' => '',
+                    'settings' => [
+                        'charset' => 'utf8'
+                    ]
                 ]
             ]
-            
-        ],
-        'runtime' => [
-            'defaultConnection' => 'mysource',
-            'connections' => ['mysource']
-        ],
-        'generator' => [
-            'defaultConnection' => 'mysource',
-            'connections' => ['mysource']
         ]
     ]
 ];

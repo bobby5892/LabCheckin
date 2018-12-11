@@ -1,9 +1,19 @@
 <?php
+
+// ORM - http://propelorm.org
+// Routing- 
+// update propel command
+// Check for changes in schema.xml
+// php C:\wamp64\www\LabCheckin\LabCheckin\public_html\vendor\propel\propel\bin\propel.php diff
+// Migrate
+// php C:\wamp64\www\LabCheckin\LabCheckin\public_html\vendor\propel\propel\bin\propel.php migrate
 namespace LabCheck;
 require("vendor/autoload.php"); // Load Composer
-/* Load Models */
-require("models/course.php");
-require("models/person.php");
-require("models/tutor.php");
-require("models/instructionalspecialist.php");
-require("models/labvisit.php");
+require("config.php");
+
+session_start();
+require("../lib/routes.php");
+
+
+
+
