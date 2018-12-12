@@ -4,7 +4,7 @@
     },
     "autoload": {
 		"psr-4": { "": ""},
-		 "classmap": ["generated-classes/"]
+		"files": ["./generated-conf/config.php","propel.php"],
+		 "classmap": ["../models","../models/Base","../models/Map"]
 	}
-
 }

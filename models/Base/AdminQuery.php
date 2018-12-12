@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \Tutor as ChildTutor;
-use \TutorQuery as ChildTutorQuery;
+use \Admin as ChildAdmin;
+use \AdminQuery as ChildAdminQuery;
 use \Exception;
 use \PDO;
-use Map\TutorTableMap;
+use Map\AdminTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -15,72 +15,82 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'tutor' table.
+ * Base class that represents a query for the 'admin' table.
  *
  *
  *
- * @method     ChildTutorQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildTutorQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildAdminQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildAdminQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildAdminQuery orderByEmailaddress($order = Criteria::ASC) Order by the emailAddress column
+ * @method     ChildAdminQuery orderByPasswordhash($order = Criteria::ASC) Order by the passwordHash column
  *
- * @method     ChildTutorQuery groupById() Group by the id column
- * @method     ChildTutorQuery groupByName() Group by the name column
+ * @method     ChildAdminQuery groupById() Group by the id column
+ * @method     ChildAdminQuery groupByName() Group by the name column
+ * @method     ChildAdminQuery groupByEmailaddress() Group by the emailAddress column
+ * @method     ChildAdminQuery groupByPasswordhash() Group by the passwordHash column
  *
- * @method     ChildTutorQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildTutorQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildTutorQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildAdminQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildAdminQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildAdminQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildTutorQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildTutorQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildTutorQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildAdminQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildAdminQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildAdminQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildTutor findOne(ConnectionInterface $con = null) Return the first ChildTutor matching the query
- * @method     ChildTutor findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTutor matching the query, or a new ChildTutor object populated from the query conditions when no match is found
+ * @method     ChildAdmin findOne(ConnectionInterface $con = null) Return the first ChildAdmin matching the query
+ * @method     ChildAdmin findOneOrCreate(ConnectionInterface $con = null) Return the first ChildAdmin matching the query, or a new ChildAdmin object populated from the query conditions when no match is found
  *
- * @method     ChildTutor findOneById(int $id) Return the first ChildTutor filtered by the id column
- * @method     ChildTutor findOneByName(string $name) Return the first ChildTutor filtered by the name column *
+ * @method     ChildAdmin findOneById(int $id) Return the first ChildAdmin filtered by the id column
+ * @method     ChildAdmin findOneByName(string $name) Return the first ChildAdmin filtered by the name column
+ * @method     ChildAdmin findOneByEmailaddress(string $emailAddress) Return the first ChildAdmin filtered by the emailAddress column
+ * @method     ChildAdmin findOneByPasswordhash(string $passwordHash) Return the first ChildAdmin filtered by the passwordHash column *
 
- * @method     ChildTutor requirePk($key, ConnectionInterface $con = null) Return the ChildTutor by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildTutor requireOne(ConnectionInterface $con = null) Return the first ChildTutor matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAdmin requirePk($key, ConnectionInterface $con = null) Return the ChildAdmin by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAdmin requireOne(ConnectionInterface $con = null) Return the first ChildAdmin matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildTutor requireOneById(int $id) Return the first ChildTutor filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildTutor requireOneByName(string $name) Return the first ChildTutor filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAdmin requireOneById(int $id) Return the first ChildAdmin filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAdmin requireOneByName(string $name) Return the first ChildAdmin filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAdmin requireOneByEmailaddress(string $emailAddress) Return the first ChildAdmin filtered by the emailAddress column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAdmin requireOneByPasswordhash(string $passwordHash) Return the first ChildAdmin filtered by the passwordHash column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildTutor[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildTutor objects based on current ModelCriteria
- * @method     ChildTutor[]|ObjectCollection findById(int $id) Return ChildTutor objects filtered by the id column
- * @method     ChildTutor[]|ObjectCollection findByName(string $name) Return ChildTutor objects filtered by the name column
- * @method     ChildTutor[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildAdmin[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildAdmin objects based on current ModelCriteria
+ * @method     ChildAdmin[]|ObjectCollection findById(int $id) Return ChildAdmin objects filtered by the id column
+ * @method     ChildAdmin[]|ObjectCollection findByName(string $name) Return ChildAdmin objects filtered by the name column
+ * @method     ChildAdmin[]|ObjectCollection findByEmailaddress(string $emailAddress) Return ChildAdmin objects filtered by the emailAddress column
+ * @method     ChildAdmin[]|ObjectCollection findByPasswordhash(string $passwordHash) Return ChildAdmin objects filtered by the passwordHash column
+ * @method     ChildAdmin[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class TutorQuery extends ModelCriteria
+abstract class AdminQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Base\TutorQuery object.
+     * Initializes internal state of \Base\AdminQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'labcheck', $modelName = '\\Tutor', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\Admin', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildTutorQuery object.
+     * Returns a new ChildAdminQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildTutorQuery
+     * @return ChildAdminQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildTutorQuery) {
+        if ($criteria instanceof ChildAdminQuery) {
             return $criteria;
         }
-        $query = new ChildTutorQuery();
+        $query = new ChildAdminQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -103,7 +113,7 @@ abstract class TutorQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildTutor|array|mixed the result, formatted by the current formatter
+     * @return ChildAdmin|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
@@ -112,7 +122,7 @@ abstract class TutorQuery extends ModelCriteria
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(TutorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(AdminTableMap::DATABASE_NAME);
         }
 
         $this->basePreSelect($con);
@@ -125,7 +135,7 @@ abstract class TutorQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = TutorTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = AdminTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -142,11 +152,11 @@ abstract class TutorQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildTutor A model object, or null if the key is not found
+     * @return ChildAdmin A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, name FROM tutor WHERE id = :p0';
+        $sql = 'SELECT id, name, emailAddress, passwordHash FROM admin WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -157,10 +167,10 @@ abstract class TutorQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildTutor $obj */
-            $obj = new ChildTutor();
+            /** @var ChildAdmin $obj */
+            $obj = new ChildAdmin();
             $obj->hydrate($row);
-            TutorTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            AdminTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -173,7 +183,7 @@ abstract class TutorQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildTutor|array|mixed the result, formatted by the current formatter
+     * @return ChildAdmin|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -215,12 +225,12 @@ abstract class TutorQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildTutorQuery The current query, for fluid interface
+     * @return $this|ChildAdminQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(TutorTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(AdminTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -228,12 +238,12 @@ abstract class TutorQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildTutorQuery The current query, for fluid interface
+     * @return $this|ChildAdminQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(TutorTableMap::COL_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(AdminTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -252,18 +262,18 @@ abstract class TutorQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildTutorQuery The current query, for fluid interface
+     * @return $this|ChildAdminQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(TutorTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AdminTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(TutorTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AdminTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -274,7 +284,7 @@ abstract class TutorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TutorTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(AdminTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -289,7 +299,7 @@ abstract class TutorQuery extends ModelCriteria
      * @param     string $name The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildTutorQuery The current query, for fluid interface
+     * @return $this|ChildAdminQuery The current query, for fluid interface
      */
     public function filterByName($name = null, $comparison = null)
     {
@@ -299,27 +309,77 @@ abstract class TutorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TutorTableMap::COL_NAME, $name, $comparison);
+        return $this->addUsingAlias(AdminTableMap::COL_NAME, $name, $comparison);
+    }
+
+    /**
+     * Filter the query on the emailAddress column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEmailaddress('fooValue');   // WHERE emailAddress = 'fooValue'
+     * $query->filterByEmailaddress('%fooValue%', Criteria::LIKE); // WHERE emailAddress LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $emailaddress The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAdminQuery The current query, for fluid interface
+     */
+    public function filterByEmailaddress($emailaddress = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($emailaddress)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AdminTableMap::COL_EMAILADDRESS, $emailaddress, $comparison);
+    }
+
+    /**
+     * Filter the query on the passwordHash column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByPasswordhash('fooValue');   // WHERE passwordHash = 'fooValue'
+     * $query->filterByPasswordhash('%fooValue%', Criteria::LIKE); // WHERE passwordHash LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $passwordhash The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAdminQuery The current query, for fluid interface
+     */
+    public function filterByPasswordhash($passwordhash = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($passwordhash)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AdminTableMap::COL_PASSWORDHASH, $passwordhash, $comparison);
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildTutor $tutor Object to remove from the list of results
+     * @param   ChildAdmin $admin Object to remove from the list of results
      *
-     * @return $this|ChildTutorQuery The current query, for fluid interface
+     * @return $this|ChildAdminQuery The current query, for fluid interface
      */
-    public function prune($tutor = null)
+    public function prune($admin = null)
     {
-        if ($tutor) {
-            $this->addUsingAlias(TutorTableMap::COL_ID, $tutor->getId(), Criteria::NOT_EQUAL);
+        if ($admin) {
+            $this->addUsingAlias(AdminTableMap::COL_ID, $admin->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the tutor table.
+     * Deletes all rows from the admin table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -327,7 +387,7 @@ abstract class TutorQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TutorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AdminTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -338,8 +398,8 @@ abstract class TutorQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            TutorTableMap::clearInstancePool();
-            TutorTableMap::clearRelatedInstancePool();
+            AdminTableMap::clearInstancePool();
+            AdminTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -357,26 +417,26 @@ abstract class TutorQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TutorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AdminTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(TutorTableMap::DATABASE_NAME);
+        $criteria->setDbName(AdminTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            TutorTableMap::removeInstanceFromPool($criteria);
+            AdminTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            TutorTableMap::clearRelatedInstancePool();
+            AdminTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // TutorQuery
+} // AdminQuery

@@ -1,4 +1,4 @@
-<database name="labcheck" defaultIdMethod="native">
+<database name="default" defaultIdMethod="native">
   <!-- table definitions go here -->
   <table name="admin" phpName="Admin">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>

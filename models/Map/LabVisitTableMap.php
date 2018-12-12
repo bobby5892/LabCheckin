@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Course;
-use \CourseQuery;
+use \LabVisit;
+use \LabVisitQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'course' table.
+ * This class defines the structure of the 'labvisit' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class CourseTableMap extends TableMap
+class LabVisitTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,32 +34,32 @@ class CourseTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.CourseTableMap';
+    const CLASS_NAME = '.Map.LabVisitTableMap';
 
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'labcheck';
+    const DATABASE_NAME = 'default';
 
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'course';
+    const TABLE_NAME = 'labvisit';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Course';
+    const OM_CLASS = '\\LabVisit';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Course';
+    const CLASS_DEFAULT = 'LabVisit';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 2;
+    const NUM_COLUMNS = 4;
 
     /**
      * The number of lazy-loaded columns
@@ -69,17 +69,27 @@ class CourseTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 2;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'course.id';
+    const COL_ID = 'labvisit.id';
 
     /**
-     * the column name for the name field
+     * the column name for the checkin field
      */
-    const COL_NAME = 'course.name';
+    const COL_CHECKIN = 'labvisit.checkin';
+
+    /**
+     * the column name for the checkout field
+     */
+    const COL_CHECKOUT = 'labvisit.checkout';
+
+    /**
+     * the column name for the courseid field
+     */
+    const COL_COURSEID = 'labvisit.courseid';
 
     /**
      * The default string format for model objects of the related table
@@ -93,11 +103,11 @@ class CourseTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', ),
-        self::TYPE_CAMELNAME     => array('id', 'name', ),
-        self::TYPE_COLNAME       => array(CourseTableMap::COL_ID, CourseTableMap::COL_NAME, ),
-        self::TYPE_FIELDNAME     => array('id', 'name', ),
-        self::TYPE_NUM           => array(0, 1, )
+        self::TYPE_PHPNAME       => array('Id', 'Checkin', 'Checkout', 'Courseid', ),
+        self::TYPE_CAMELNAME     => array('id', 'checkin', 'checkout', 'courseid', ),
+        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID, LabVisitTableMap::COL_CHECKIN, LabVisitTableMap::COL_CHECKOUT, LabVisitTableMap::COL_COURSEID, ),
+        self::TYPE_FIELDNAME     => array('id', 'checkin', 'checkout', 'courseid', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -107,11 +117,11 @@ class CourseTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'name' => 1, ),
-        self::TYPE_COLNAME       => array(CourseTableMap::COL_ID => 0, CourseTableMap::COL_NAME => 1, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, ),
-        self::TYPE_NUM           => array(0, 1, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Checkin' => 1, 'Checkout' => 2, 'Courseid' => 3, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'checkin' => 1, 'checkout' => 2, 'courseid' => 3, ),
+        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID => 0, LabVisitTableMap::COL_CHECKIN => 1, LabVisitTableMap::COL_CHECKOUT => 2, LabVisitTableMap::COL_COURSEID => 3, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'checkin' => 1, 'checkout' => 2, 'courseid' => 3, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -124,15 +134,17 @@ class CourseTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('course');
-        $this->setPhpName('Course');
+        $this->setName('labvisit');
+        $this->setPhpName('LabVisit');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Course');
+        $this->setClassName('\\LabVisit');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('name', 'Name', 'VARCHAR', true, 64, null);
+        $this->addColumn('checkin', 'Checkin', 'TIMESTAMP', true, null, null);
+        $this->addColumn('checkout', 'Checkout', 'TIMESTAMP', false, null, null);
+        $this->addForeignKey('courseid', 'Courseid', 'INTEGER', 'course', 'id', false, null, null);
     } // initialize()
 
     /**
@@ -140,23 +152,14 @@ class CourseTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('LabVisit', '\\LabVisit', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('Course', '\\Course', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':courseid',
     1 => ':id',
   ),
-), 'SET NULL', 'CASCADE', 'LabVisits', false);
+), 'SET NULL', 'CASCADE', null, false);
     } // buildRelations()
-    /**
-     * Method to invalidate the instance pool of all tables related to course     * by a foreign key with ON DELETE CASCADE
-     */
-    public static function clearRelatedInstancePool()
-    {
-        // Invalidate objects in related instance pools,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        LabVisitTableMap::clearInstancePool();
-    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -215,7 +218,7 @@ class CourseTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? CourseTableMap::CLASS_DEFAULT : CourseTableMap::OM_CLASS;
+        return $withPrefix ? LabVisitTableMap::CLASS_DEFAULT : LabVisitTableMap::OM_CLASS;
     }
 
     /**
@@ -229,22 +232,22 @@ class CourseTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Course object, last column rank)
+     * @return array           (LabVisit object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = CourseTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = CourseTableMap::getInstanceFromPool($key))) {
+        $key = LabVisitTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = LabVisitTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + CourseTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + LabVisitTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = CourseTableMap::OM_CLASS;
-            /** @var Course $obj */
+            $cls = LabVisitTableMap::OM_CLASS;
+            /** @var LabVisit $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            CourseTableMap::addInstanceToPool($obj, $key);
+            LabVisitTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -267,18 +270,18 @@ class CourseTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = CourseTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = CourseTableMap::getInstanceFromPool($key))) {
+            $key = LabVisitTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = LabVisitTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Course $obj */
+                /** @var LabVisit $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                CourseTableMap::addInstanceToPool($obj, $key);
+                LabVisitTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -299,11 +302,15 @@ class CourseTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(CourseTableMap::COL_ID);
-            $criteria->addSelectColumn(CourseTableMap::COL_NAME);
+            $criteria->addSelectColumn(LabVisitTableMap::COL_ID);
+            $criteria->addSelectColumn(LabVisitTableMap::COL_CHECKIN);
+            $criteria->addSelectColumn(LabVisitTableMap::COL_CHECKOUT);
+            $criteria->addSelectColumn(LabVisitTableMap::COL_COURSEID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.name');
+            $criteria->addSelectColumn($alias . '.checkin');
+            $criteria->addSelectColumn($alias . '.checkout');
+            $criteria->addSelectColumn($alias . '.courseid');
         }
     }
 
@@ -316,7 +323,7 @@ class CourseTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(CourseTableMap::DATABASE_NAME)->getTable(CourseTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(LabVisitTableMap::DATABASE_NAME)->getTable(LabVisitTableMap::TABLE_NAME);
     }
 
     /**
@@ -324,16 +331,16 @@ class CourseTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(CourseTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(CourseTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new CourseTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(LabVisitTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(LabVisitTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new LabVisitTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Course or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a LabVisit or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Course object or primary key or array of primary keys
+     * @param mixed               $values Criteria or LabVisit object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -344,27 +351,27 @@ class CourseTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CourseTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Course) { // it's a model object
+        } elseif ($values instanceof \LabVisit) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(CourseTableMap::DATABASE_NAME);
-            $criteria->add(CourseTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(LabVisitTableMap::DATABASE_NAME);
+            $criteria->add(LabVisitTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = CourseQuery::create()->mergeWith($criteria);
+        $query = LabVisitQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            CourseTableMap::clearInstancePool();
+            LabVisitTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                CourseTableMap::removeInstanceFromPool($singleval);
+                LabVisitTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -372,20 +379,20 @@ class CourseTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the course table.
+     * Deletes all rows from the labvisit table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return CourseQuery::create()->doDeleteAll($con);
+        return LabVisitQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Course or Criteria object.
+     * Performs an INSERT on the database, given a LabVisit or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Course object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or LabVisit object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -394,22 +401,22 @@ class CourseTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CourseTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Course object
+            $criteria = $criteria->buildCriteria(); // build Criteria from LabVisit object
         }
 
-        if ($criteria->containsKey(CourseTableMap::COL_ID) && $criteria->keyContainsValue(CourseTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CourseTableMap::COL_ID.')');
+        if ($criteria->containsKey(LabVisitTableMap::COL_ID) && $criteria->keyContainsValue(LabVisitTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.LabVisitTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = CourseQuery::create()->mergeWith($criteria);
+        $query = LabVisitQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -418,7 +425,7 @@ class CourseTableMap extends TableMap
         });
     }
 
-} // CourseTableMap
+} // LabVisitTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-CourseTableMap::buildTableMap();
+LabVisitTableMap::buildTableMap();

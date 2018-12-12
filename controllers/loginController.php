@@ -42,16 +42,16 @@ class LoginController{
 		// Add the default
 
 		if($this->config['debugMode'] == true){
-			Propel::getConnection()->useDebug(true);
+			//Propel::getConnection()->useDebug(true);
 		}
 		$q = new AdminQuery();
 		$firstAdmin = $q->findPK(1);
 		if($firstAdmin == ""){
 			// Doesn't exist - lets create one
 			$newAdmin = new Admin();
-			$newAdmin->setName = "Admin";
-			$newAdmin->setemailAddress =  $this->config['defaultAdminEmail'];
-			$newAdmin->setpasswordHash = $this->HashPass( $this->config['defaultAdminPassword']);
+			$newAdmin->setName("Admin");
+			$newAdmin->setemailAddress($this->config['defaultAdminEmail']);
+			$newAdmin->setpasswordHash($this->HashPass( $this->config['defaultAdminPassword']));
 			$newAdmin->save();
 		}	
 	}
@@ -59,8 +59,8 @@ class LoginController{
 		//https://coderwall.com/p/m2hkiw/php-encrypt-decrypt-generate-random-passwords-with-mcrypt
 		$td = mcrypt_module_open('cast-256', '', 'ecb', $string);
 		$iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-		mcrypt_generic_init($td, $salt, $iv);
-		$encrypted_data = mcrypt_generic($td, $plaintext);
+		mcrypt_generic_init($td, $this->config['salt'], $iv);
+		$encrypted_data = mcrypt_generic($td, $string);
 		mcrypt_generic_deinit($td);
 		mcrypt_module_close($td);
 		$encoded_64 = base64_encode($encrypted_data);

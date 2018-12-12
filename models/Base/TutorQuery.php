@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \LabSpecialist as ChildLabSpecialist;
-use \LabSpecialistQuery as ChildLabSpecialistQuery;
+use \Tutor as ChildTutor;
+use \TutorQuery as ChildTutorQuery;
 use \Exception;
 use \PDO;
-use Map\LabSpecialistTableMap;
+use Map\TutorTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -15,72 +15,72 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'labspecialist' table.
+ * Base class that represents a query for the 'tutor' table.
  *
  *
  *
- * @method     ChildLabSpecialistQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildLabSpecialistQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildTutorQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildTutorQuery orderByName($order = Criteria::ASC) Order by the name column
  *
- * @method     ChildLabSpecialistQuery groupById() Group by the id column
- * @method     ChildLabSpecialistQuery groupByName() Group by the name column
+ * @method     ChildTutorQuery groupById() Group by the id column
+ * @method     ChildTutorQuery groupByName() Group by the name column
  *
- * @method     ChildLabSpecialistQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildLabSpecialistQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildLabSpecialistQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildTutorQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildTutorQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildTutorQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildLabSpecialistQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildLabSpecialistQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildLabSpecialistQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildTutorQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildTutorQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildTutorQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildLabSpecialist findOne(ConnectionInterface $con = null) Return the first ChildLabSpecialist matching the query
- * @method     ChildLabSpecialist findOneOrCreate(ConnectionInterface $con = null) Return the first ChildLabSpecialist matching the query, or a new ChildLabSpecialist object populated from the query conditions when no match is found
+ * @method     ChildTutor findOne(ConnectionInterface $con = null) Return the first ChildTutor matching the query
+ * @method     ChildTutor findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTutor matching the query, or a new ChildTutor object populated from the query conditions when no match is found
  *
- * @method     ChildLabSpecialist findOneById(int $id) Return the first ChildLabSpecialist filtered by the id column
- * @method     ChildLabSpecialist findOneByName(string $name) Return the first ChildLabSpecialist filtered by the name column *
+ * @method     ChildTutor findOneById(int $id) Return the first ChildTutor filtered by the id column
+ * @method     ChildTutor findOneByName(string $name) Return the first ChildTutor filtered by the name column *
 
- * @method     ChildLabSpecialist requirePk($key, ConnectionInterface $con = null) Return the ChildLabSpecialist by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildLabSpecialist requireOne(ConnectionInterface $con = null) Return the first ChildLabSpecialist matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTutor requirePk($key, ConnectionInterface $con = null) Return the ChildTutor by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTutor requireOne(ConnectionInterface $con = null) Return the first ChildTutor matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildLabSpecialist requireOneById(int $id) Return the first ChildLabSpecialist filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildLabSpecialist requireOneByName(string $name) Return the first ChildLabSpecialist filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTutor requireOneById(int $id) Return the first ChildTutor filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTutor requireOneByName(string $name) Return the first ChildTutor filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildLabSpecialist[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildLabSpecialist objects based on current ModelCriteria
- * @method     ChildLabSpecialist[]|ObjectCollection findById(int $id) Return ChildLabSpecialist objects filtered by the id column
- * @method     ChildLabSpecialist[]|ObjectCollection findByName(string $name) Return ChildLabSpecialist objects filtered by the name column
- * @method     ChildLabSpecialist[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildTutor[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildTutor objects based on current ModelCriteria
+ * @method     ChildTutor[]|ObjectCollection findById(int $id) Return ChildTutor objects filtered by the id column
+ * @method     ChildTutor[]|ObjectCollection findByName(string $name) Return ChildTutor objects filtered by the name column
+ * @method     ChildTutor[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class LabSpecialistQuery extends ModelCriteria
+abstract class TutorQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Base\LabSpecialistQuery object.
+     * Initializes internal state of \Base\TutorQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'labcheck', $modelName = '\\LabSpecialist', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\Tutor', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildLabSpecialistQuery object.
+     * Returns a new ChildTutorQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildLabSpecialistQuery
+     * @return ChildTutorQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildLabSpecialistQuery) {
+        if ($criteria instanceof ChildTutorQuery) {
             return $criteria;
         }
-        $query = new ChildLabSpecialistQuery();
+        $query = new ChildTutorQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -103,7 +103,7 @@ abstract class LabSpecialistQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildLabSpecialist|array|mixed the result, formatted by the current formatter
+     * @return ChildTutor|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
@@ -112,7 +112,7 @@ abstract class LabSpecialistQuery extends ModelCriteria
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(LabSpecialistTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(TutorTableMap::DATABASE_NAME);
         }
 
         $this->basePreSelect($con);
@@ -125,7 +125,7 @@ abstract class LabSpecialistQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = LabSpecialistTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = TutorTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -142,11 +142,11 @@ abstract class LabSpecialistQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildLabSpecialist A model object, or null if the key is not found
+     * @return ChildTutor A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, name FROM labspecialist WHERE id = :p0';
+        $sql = 'SELECT id, name FROM tutor WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -157,10 +157,10 @@ abstract class LabSpecialistQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildLabSpecialist $obj */
-            $obj = new ChildLabSpecialist();
+            /** @var ChildTutor $obj */
+            $obj = new ChildTutor();
             $obj->hydrate($row);
-            LabSpecialistTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            TutorTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -173,7 +173,7 @@ abstract class LabSpecialistQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildLabSpecialist|array|mixed the result, formatted by the current formatter
+     * @return ChildTutor|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -215,12 +215,12 @@ abstract class LabSpecialistQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildLabSpecialistQuery The current query, for fluid interface
+     * @return $this|ChildTutorQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(LabSpecialistTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(TutorTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -228,12 +228,12 @@ abstract class LabSpecialistQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildLabSpecialistQuery The current query, for fluid interface
+     * @return $this|ChildTutorQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(LabSpecialistTableMap::COL_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(TutorTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -252,18 +252,18 @@ abstract class LabSpecialistQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildLabSpecialistQuery The current query, for fluid interface
+     * @return $this|ChildTutorQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(LabSpecialistTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(TutorTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(LabSpecialistTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(TutorTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -274,7 +274,7 @@ abstract class LabSpecialistQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(LabSpecialistTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(TutorTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -289,7 +289,7 @@ abstract class LabSpecialistQuery extends ModelCriteria
      * @param     string $name The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildLabSpecialistQuery The current query, for fluid interface
+     * @return $this|ChildTutorQuery The current query, for fluid interface
      */
     public function filterByName($name = null, $comparison = null)
     {
@@ -299,27 +299,27 @@ abstract class LabSpecialistQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(LabSpecialistTableMap::COL_NAME, $name, $comparison);
+        return $this->addUsingAlias(TutorTableMap::COL_NAME, $name, $comparison);
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildLabSpecialist $labSpecialist Object to remove from the list of results
+     * @param   ChildTutor $tutor Object to remove from the list of results
      *
-     * @return $this|ChildLabSpecialistQuery The current query, for fluid interface
+     * @return $this|ChildTutorQuery The current query, for fluid interface
      */
-    public function prune($labSpecialist = null)
+    public function prune($tutor = null)
     {
-        if ($labSpecialist) {
-            $this->addUsingAlias(LabSpecialistTableMap::COL_ID, $labSpecialist->getId(), Criteria::NOT_EQUAL);
+        if ($tutor) {
+            $this->addUsingAlias(TutorTableMap::COL_ID, $tutor->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the labspecialist table.
+     * Deletes all rows from the tutor table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -327,7 +327,7 @@ abstract class LabSpecialistQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(LabSpecialistTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TutorTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -338,8 +338,8 @@ abstract class LabSpecialistQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            LabSpecialistTableMap::clearInstancePool();
-            LabSpecialistTableMap::clearRelatedInstancePool();
+            TutorTableMap::clearInstancePool();
+            TutorTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -357,26 +357,26 @@ abstract class LabSpecialistQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(LabSpecialistTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TutorTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(LabSpecialistTableMap::DATABASE_NAME);
+        $criteria->setDbName(TutorTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            LabSpecialistTableMap::removeInstanceFromPool($criteria);
+            TutorTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            LabSpecialistTableMap::clearRelatedInstancePool();
+            TutorTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // LabSpecialistQuery
+} // TutorQuery
