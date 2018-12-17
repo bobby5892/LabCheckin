@@ -2,7 +2,7 @@
 // See propel.php for Database config
 // Base Prefix is if the software is not hosted in the root of the domain
 $config['basePrefix'] = "";
-// Change salt for deploy
+// Change salt for deploy - less than 30 chars
 $config['salt'] = "#$((@JDFIDAFHHO@lijdaflgij12340";
 
 // Default Email for First Admin

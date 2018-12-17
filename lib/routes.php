@@ -77,11 +77,11 @@ switch ($request) {
          $content =  $loginController->LoginForm();
         }
         break;  
-     case $config['basePrefix'] . '/admin/editclasses' :
+     case $config['basePrefix'] . '/admin/editcourses' :
         if($loginController->IsLoggedIn()){
           require __DIR__ . "/../controllers/adminController.php";
           $controller = new AdminController($config);
-          $content =  $controller->editClasses();
+          $content =  $controller->editCourses();
         }
         else{
          $content =  $loginController->LoginForm();
@@ -97,6 +97,10 @@ switch ($request) {
          $content =  $loginController->LoginForm();
         }
         break;
+    case $config['basePrefix'] . '/logout' :
+         $content =  $loginController->LogOut();
+
+        break;        
     case $config['basePrefix'] .  '' :
         require __DIR__ . '/views/index.php';
         break;

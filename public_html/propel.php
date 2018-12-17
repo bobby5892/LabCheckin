@@ -10,10 +10,10 @@ return [
     'propel' => [
         'paths' => [
             // The directory where Propel expects to find your `schema.xml` file.
-            'schemaDir' => 'C:\wamp64\www\LabCheckin\LabCheckin',
+            'schemaDir' => 'C:\code\labcheckin',
 
             // The directory where Propel should output generated object model classes.
-            'phpDir' => 'C:\wamp64\www\LabCheckin\LabCheckin\models',
+            'phpDir' => 'C:\code\labcheckin\models',
         ],
         'database' => [
             'connections' => [

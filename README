@@ -1,0 +1,108 @@
+Lab Check
+Version 0.5
+by Robert Moore 12/17/2018 
+
+-----------------------------------------------------------------
+
+Purpose
+
+-----------------------------------------------------------------
+
+Lab check is an application to track lab usage by a student identification number. 
+The software allows students to check in and check out of the lab by course. Other features
+include administrative reports, exporting and more.
+
+
+------------------------------------------------------------------
+
+Installation
+
+-----------------------------------------------------------------
+
+
+Copy the files from public_html to your public_html.
+One folder below the public_html folder copy the remainder of the documents.
+
+This should result in the following structure.
+
+controllers
+lib
+models
+public_html
+public_html/css
+public_html/generated-conf
+public_html/generated-migrations
+public_html/libs/..... [ few folders in here]
+views
+
+In Apache we modify the Vhost to look similar too
+
+<VirtualHost *:80>
+	ServerName labcheckin
+	DocumentRoot "/var/www/labcheckin/public_html"
+	<Directory  "/var/www/labcheckin">
+		Options +Indexes +Includes +FollowSymLinks +MultiViews
+		AllowOverride All
+		Require local
+	</Directory>
+</VirtualHost>
+
+-- Composer --
+From console SSH in the public html folder run
+
+php composer.phar update
+
+This will grab all the dependencies required.
+
+-- Propel ORM --
+For Database configuration edit the propel.php in the public_html folder.
+
+First we need to set some paths for generated models.
+
+ 'paths' => [
+            // The directory where Propel expects to find your `schema.xml` file.
+            'schemaDir' => '/var/www/labcheckin',
+
+            // The directory where Propel should output generated object model classes.
+            'phpDir' => '/var/www/labcheckin/models',
+
+Second we setup the connection to the database lets leave it called default.
+
+Now we run the initial migration
+
+Change your console directory so your in the public_html folder
+
+Then change the path to the propel.php (but the one in the vendor folder - not your public_html one)
+php C:\code\labCheckin\public_html\vendor\propel\propel\bin\propel.php migrate        
+
+
+Lastly edit the conifg.php which is one folder below public_html and set your default login user and password.
+
+When you goto the initial page in the app in a browser, it should automatically create that user (if there are 0 users in the app).
+
+
+
+------------------------------------------------------------------
+
+Development Notes
+
+-----------------------------------------------------------------
+
+
+ORM - http://propelorm.org
+update propel command
+
+Check for changes in schema.xml
+php C:\wamp64\www\LabCheckin\LabCheckin\public_html\vendor\propel\propel\bin\propel.php diff
+
+Migrate
+php C:\wamp64\www\LabCheckin\LabCheckin\public_html\vendor\propel\propel\bin\propel.php migrate
+
+Build Models
+propel model:build
+
+
+--Future Dev--
+*Install script
+*Ajax response to login
+

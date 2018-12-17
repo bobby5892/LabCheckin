@@ -148,6 +148,19 @@ class CourseTableMap extends TableMap
   ),
 ), 'SET NULL', 'CASCADE', 'LabVisits', false);
     } // buildRelations()
+
+    /**
+     *
+     * Gets the list of behaviors registered for this table
+     *
+     * @return array Associative array (name => parameters) of behaviors
+     */
+    public function getBehaviors()
+    {
+        return array(
+            'validate' => array('rule1' => array ('column' => 'name','validator' => 'NotNull',), 'rule2' => array ('column' => 'name','validator' => 'Length','options' => array ('max' => 64,),), ),
+        );
+    } // getBehaviors()
     /**
      * Method to invalidate the instance pool of all tables related to course     * by a foreign key with ON DELETE CASCADE
      */

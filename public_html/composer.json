@@ -1,6 +1,7 @@
 {
     "require": {
-       "propel/propel": "~2.0@dev"
+       "propel/propel": "~2.0@dev",
+        "symfony/translation": "^4.2"
     },
     "autoload": {
 		"psr-4": { "": ""},

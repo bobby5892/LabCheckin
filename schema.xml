@@ -5,10 +5,19 @@
     <column name="name" type="varchar" size="64" required="true" />
     <column name="emailAddress" type="varchar" size="128" required="true" />
     <column name="passwordHash" type="varchar" size="128" required="true" />
+    <behavior name="validate">
+            <parameter name="rule1" value="{column: name, validator: NotNull}" />
+            <parameter name="rule2" value="{column: name, validator: Length, options: {max: 64}}" />
+            <parameter name="rule3" value="{column: emailAddress, validator: Email}" />
+    </behavior>
   </table>
    <table name="course" phpName="Course">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
     <column name="name" type="varchar" size="64" required="true" />
+    <behavior name="validate">
+        <parameter name="rule1" value="{column: name, validator: NotNull}" />
+        <parameter name="rule2" value="{column: name, validator: Length, options: {max: 64}}" />
+    </behavior>
   </table>
   <table name="labvisit" phpName="LabVisit">
 	<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
@@ -22,9 +31,18 @@
    <table name="tutor" phpName="Tutor">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
     <column name="name" type="varchar" size="64" required="true" />
+    <behavior name="validate">
+        <parameter name="rule1" value="{column: name, validator: NotNull}" />
+        <parameter name="rule2" value="{column: name, validator: Length, options: {max: 64}}" />
+    </behavior>
   </table>
    <table name="labspecialist" phpName="LabSpecialist">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
     <column name="name" type="varchar" size="64" required="true" />
+        <behavior name="validate">
+        <parameter name="rule1" value="{column: name, validator: NotNull}" />
+        <parameter name="rule2" value="{column: name, validator: Length, options: {max: 64}}" />
+    </behavior>
   </table>
 </database>
+

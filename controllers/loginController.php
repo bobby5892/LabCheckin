@@ -7,7 +7,15 @@ class LoginController{
 	public function IsLoggedIn(){
 		if(isset($_SESSION['LOGGEDIN'])){
 			if($_SESSION['LOGGEDIN'] == "true"){
-				//print var_dump($_SESSION['USER']);
+				// Pre-verify
+				if(
+					(isset($_SESSION['USER']) == false) || 
+					(isset($_SESSION['USER']['emailaddress']) == false) || 
+					(isset($_SESSION['USER']['passwordhash']) == false)
+					){
+					return false;
+				}
+
 				// Lets check password
 				$q = new AdminQuery();
 				$admin = AdminQuery::create()
@@ -23,7 +31,7 @@ class LoginController{
 		return false;
 	}
 	public function LoginForm(){
-		return file_get_contents("../views/loginform.php");
+		return file_get_contents("../views/loginform.html");
 	}
 	public function Login(){
 		// Check for a sanitized Valid Email 
@@ -57,13 +65,14 @@ class LoginController{
 			  		"passwordhash" => $admin[0]->getpasswordHash()
 			  		);
 			  		$_SESSION['LOGGEDIN'] = true;
+			  		print "<script>self.location = self.location +'/..';</script>";
 				}
 				else{
 					print "<div class='Error'>Wrong Username or Password</div>";
 				}
 				// user is logged in
 				
-				print "<script>self.location = self.location +'/..';</script>";
+			
 		}
 		catch(Exception $e){
 			return false;
@@ -92,9 +101,14 @@ class LoginController{
 			
 		}	
 	}
-	private function HashPass($string){
+	public function LogOut(){
+		$_SESSION['USER'] = "";
+		print "<script>self.location = self.location +'/..';</script>";
+	}	
+	private function HashPass($plaintext){
+		// Mcrypt deprecated in php 7.1 - so alternative below
 		//https://coderwall.com/p/m2hkiw/php-encrypt-decrypt-generate-random-passwords-with-mcrypt
-		$td = mcrypt_module_open('cast-256', '', 'ecb', $string);
+	/*	$td = mcrypt_module_open('cast-256', '', 'ecb', $string);
 		$iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
 		mcrypt_generic_init($td, $this->config['salt'], $iv);
 		$encrypted_data = mcrypt_generic($td, $string);
@@ -102,5 +116,19 @@ class LoginController{
 		mcrypt_module_close($td);
 		$encoded_64 = base64_encode($encrypted_data);
 		return trim($encoded_64);
+	*/
+		//https://stackoverflow.com/questions/41272257/mcrypt-is-deprecated-what-is-the-alternative
+		//$key should have been previously generated in a cryptographically safe way, like openssl_random_pseudo_bytes
+
+		$cipher = "aes-128-gcm";
+		if (in_array($cipher, openssl_get_cipher_methods())){
+		    //$ivlen = openssl_cipher_iv_length($cipher);
+		    //$iv = openssl_random_pseudo_bytes($ivlen);
+		    $ciphertext = openssl_encrypt($plaintext, $cipher, $this->config['salt'], $options=0, $this->config['salt'], $tag);
+		    //store $cipher, $iv, and $tag for decryption later
+		    // $original_plaintext = openssl_decrypt($ciphertext, $cipher, $key, $options=0, $iv, $tag);
+		    //echo $original_plaintext."\n";
+		    return $ciphertext;
+		}
 	}
 }
