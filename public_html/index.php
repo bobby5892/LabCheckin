@@ -11,13 +11,10 @@
 namespace LabCheck;
 
 require("vendor/autoload.php"); // Load Composer
+// Need to wrangle this down to 1 config.
 require("../config.php");
 require("generated-conf/config.php");
 require("propel.php");
-
-
-
-
 
 session_start();
 require("../lib/routes.php");

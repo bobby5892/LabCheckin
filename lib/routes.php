@@ -14,12 +14,12 @@ if (isset($_SERVER['REDIRECT_URL'])) {
 
 $content = "";   
 switch ($request) {
-    case '/' :
+    case $config['basePrefix'] . '/' :
    		require __DIR__ . "/../controllers/statsController.php";
    		$controller = new StatsController($config);
    		$content =  $controller->publicIndex();
         break;
-    case '/admin' :
+    case $config['basePrefix'] .  '/admin' :
         if($loginController->IsLoggedIn()){
           require __DIR__ . "/../controllers/adminController.php";
           $controller = new AdminController($config);
@@ -29,7 +29,17 @@ switch ($request) {
          $content =  $loginController->LoginForm();
         }
         break;
-    case '/admin/login' :   
+    case $config['basePrefix'] . '/admin/' :
+     if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->publicIndex();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;
+    case $config['basePrefix'] . '/admin/login' :   
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {   
           $content =  $loginController->Login();
         }
@@ -37,14 +47,64 @@ switch ($request) {
           $content =  $loginController->LoginForm();
         }
         break;
-    case '' :
+    case $config['basePrefix'] . '/admin/Report/Period' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->reportsByPeriod();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;
+     case $config['basePrefix'] . '/admin/Report/Class' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->reportsByClass();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;   
+     case $config['basePrefix'] . '/admin/search' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->Search();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;  
+     case $config['basePrefix'] . '/admin/editclasses' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->editClasses();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;
+      case $config['basePrefix'] . '/admin/editusers' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->editUsers();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;
+    case $config['basePrefix'] .  '' :
         require __DIR__ . '/views/index.php';
         break;
-    case '/about' :
+    case $config['basePrefix'] . '/about' :
         require __DIR__ . '/views/about.php';
         break;
     default: 
-        require __DIR__ . '/views/404.php';
+        require __DIR__ . '/../views/404.php';
         break;
 }
 print $content;

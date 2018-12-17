@@ -5,29 +5,65 @@ class LoginController{
 		$this->config = $config;
 	}
 	public function IsLoggedIn(){
-		if(isset($_SESSION['LoggedIn'])){
-			if($_SESSION['LoggedIn'] == "true"){
-				return true;
+		if(isset($_SESSION['LOGGEDIN'])){
+			if($_SESSION['LOGGEDIN'] == "true"){
+				//print var_dump($_SESSION['USER']);
+				// Lets check password
+				$q = new AdminQuery();
+				$admin = AdminQuery::create()
+				  ->filterByemailAddress(strtolower($_SESSION['USER']['emailaddress']))
+				  ->limit(1)
+				  ->find();
+				// If the Session hashed password - matches the stored hash password
+  				if($_SESSION['USER']['passwordhash'] == $admin[0]->getpasswordHash()){
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 	public function LoginForm(){
-		return require("../views/loginform.php");
+		return file_get_contents("../views/loginform.php");
 	}
 	public function Login(){
 		// Check for a sanitized Valid Email 
-		if(preg_match("/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/",$_POST['emailAddress'],$matches)) {
-		     if(count($matches) != 1){ return false;}
+		//https://emailregex.com/
+		if (!(filter_var($_POST['emailAddress'], FILTER_VALIDATE_EMAIL))) {   
+		     	return false;
 		}
 		// Check for Sanitized password
-		if(preg_match("/^([0-9A-z].*?)$/",$_POST['password'],$matches)){
-			if(count($matches) != 1) { return false; }
+		if(preg_match("/^([0-9A-z].*?)$/",$_POST['password']) == false){
+				return false; 
 		}
-		
 		// See if a user exists with that email (all lowecase)
 		try{
-
+			$q = new AdminQuery();
+			$admin = AdminQuery::create()
+			  ->filterByemailAddress(strtolower($_POST['emailAddress']))
+			  ->limit(1)
+			  ->find();
+			// No record found
+			if($admin->count() != 1){ 
+				print "<div class='Error'>Wrong Username or Password</div>";
+				return false;
+			}
+			  // Check if password matches
+			  	if($this->HashPass($_POST['password']) == $admin[0]->getpasswordHash()){
+			  	// Update the Session
+			  		$_SESSION['USER'] = array(
+			  		"id" => $admin[0]->getId(),
+			  		"name" => $admin[0]->getName(),
+			  		"emailaddress" => $admin[0]->getemailAddress(),
+			  		"passwordhash" => $admin[0]->getpasswordHash()
+			  		);
+			  		$_SESSION['LOGGEDIN'] = true;
+				}
+				else{
+					print "<div class='Error'>Wrong Username or Password</div>";
+				}
+				// user is logged in
+				
+				print "<script>self.location = self.location +'/..';</script>";
 		}
 		catch(Exception $e){
 			return false;
@@ -50,9 +86,10 @@ class LoginController{
 			// Doesn't exist - lets create one
 			$newAdmin = new Admin();
 			$newAdmin->setName("Admin");
-			$newAdmin->setemailAddress($this->config['defaultAdminEmail']);
+			$newAdmin->setemailAddress(strtolower ($this->config['defaultAdminEmail']));
 			$newAdmin->setpasswordHash($this->HashPass( $this->config['defaultAdminPassword']));
 			$newAdmin->save();
+			
 		}	
 	}
 	private function HashPass($string){

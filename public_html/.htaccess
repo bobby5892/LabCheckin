@@ -1,4 +1,9 @@
 RewriteEngine on
+## Ignore certain folders
+RewriteRule ^(css|js|libs)($|/) - [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
+## Redirect all to index
 RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
