@@ -20,9 +20,11 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildTutorQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildTutorQuery orderByStudentid($order = Criteria::ASC) Order by the studentid column
  * @method     ChildTutorQuery orderByName($order = Criteria::ASC) Order by the name column
  *
  * @method     ChildTutorQuery groupById() Group by the id column
+ * @method     ChildTutorQuery groupByStudentid() Group by the studentid column
  * @method     ChildTutorQuery groupByName() Group by the name column
  *
  * @method     ChildTutorQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -37,16 +39,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTutor findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTutor matching the query, or a new ChildTutor object populated from the query conditions when no match is found
  *
  * @method     ChildTutor findOneById(int $id) Return the first ChildTutor filtered by the id column
+ * @method     ChildTutor findOneByStudentid(string $studentid) Return the first ChildTutor filtered by the studentid column
  * @method     ChildTutor findOneByName(string $name) Return the first ChildTutor filtered by the name column *
 
  * @method     ChildTutor requirePk($key, ConnectionInterface $con = null) Return the ChildTutor by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildTutor requireOne(ConnectionInterface $con = null) Return the first ChildTutor matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildTutor requireOneById(int $id) Return the first ChildTutor filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTutor requireOneByStudentid(string $studentid) Return the first ChildTutor filtered by the studentid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildTutor requireOneByName(string $name) Return the first ChildTutor filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildTutor[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildTutor objects based on current ModelCriteria
  * @method     ChildTutor[]|ObjectCollection findById(int $id) Return ChildTutor objects filtered by the id column
+ * @method     ChildTutor[]|ObjectCollection findByStudentid(string $studentid) Return ChildTutor objects filtered by the studentid column
  * @method     ChildTutor[]|ObjectCollection findByName(string $name) Return ChildTutor objects filtered by the name column
  * @method     ChildTutor[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
@@ -146,7 +151,7 @@ abstract class TutorQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, name FROM tutor WHERE id = :p0';
+        $sql = 'SELECT id, studentid, name FROM tutor WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -275,6 +280,31 @@ abstract class TutorQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(TutorTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the studentid column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByStudentid('fooValue');   // WHERE studentid = 'fooValue'
+     * $query->filterByStudentid('%fooValue%', Criteria::LIKE); // WHERE studentid LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $studentid The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildTutorQuery The current query, for fluid interface
+     */
+    public function filterByStudentid($studentid = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($studentid)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(TutorTableMap::COL_STUDENTID, $studentid, $comparison);
     }
 
     /**

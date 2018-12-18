@@ -9,16 +9,12 @@ $loginController->AddDefaultIfEmpty();
 if (isset($_SERVER['REDIRECT_URL'])) {
       $request = $config['basePrefix'] . $_SERVER['REDIRECT_URL'];
    } else {
-      $request = $request = $config['basePrefix'] . $_SERVER['REQUEST_URI'];
+      $request = $config['basePrefix'] . $_SERVER['REQUEST_URI'];
    }
 
 $content = "";   
 switch ($request) {
-    case $config['basePrefix'] . '/' :
-   		require __DIR__ . "/../controllers/statsController.php";
-   		$controller = new StatsController($config);
-   		$content =  $controller->publicIndex();
-        break;
+  
     case $config['basePrefix'] .  '/admin' :
         if($loginController->IsLoggedIn()){
           require __DIR__ . "/../controllers/adminController.php";
@@ -97,16 +93,40 @@ switch ($request) {
          $content =  $loginController->LoginForm();
         }
         break;
+      case $config['basePrefix'] . '/courses' :
+          require __DIR__ . "/../controllers/checkinController.php";
+          $controller = new CheckinController($config);
+          $content =  $controller->GetCourses();
+        break;
+     case $config['basePrefix'] . '/savecheck' :
+          require __DIR__ . "/../controllers/checkinController.php";
+          $controller = new CheckinController($config);
+          $content =  $controller->SaveCheck();
+        break;        
     case $config['basePrefix'] . '/logout' :
          $content =  $loginController->LogOut();
 
         break;        
     case $config['basePrefix'] .  '' :
-        require __DIR__ . '/views/index.php';
+        require __DIR__ . "/../controllers/checkinController.php";
+          $controller = new CheckinController($config);
+          $content =  $controller->Index();
         break;
-    case $config['basePrefix'] . '/about' :
-        require __DIR__ . '/views/about.php';
-        break;
+    case $config['basePrefix'] . '/validateL' :
+       require __DIR__ . "/../controllers/checkinController.php";
+          $controller = new CheckinController($config);
+          $content =  $controller->ValidateL();
+    break;
+    case $config['basePrefix'] . '/isCheckedIn' :
+       require __DIR__ . "/../controllers/checkinController.php";
+          $controller = new CheckinController($config);
+          $content =  $controller->IsCheckedIn();
+    break;                        
+    case $config['basePrefix'] . '/' :
+       require __DIR__ . "/../controllers/checkinController.php";
+          $controller = new CheckinController($config);
+          $content =  $controller->Index();
+    break;        
     default: 
         require __DIR__ . '/../views/404.php';
         break;

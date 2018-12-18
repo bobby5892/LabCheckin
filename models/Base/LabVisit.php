@@ -21,6 +21,18 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
+use Symfony\Component\Translation\IdentityTranslator;
+use Symfony\Component\Validator\ConstraintValidatorFactory;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Context\ExecutionContextFactory;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
+use Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader;
+use Symfony\Component\Validator\Validator\RecursiveValidator;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Base class that represents a row from the 'labvisit' table.
@@ -71,6 +83,13 @@ abstract class LabVisit implements ActiveRecordInterface
     protected $id;
 
     /**
+     * The value for the studentid field.
+     *
+     * @var        string
+     */
+    protected $studentid;
+
+    /**
      * The value for the checkin field.
      *
      * @var        DateTime
@@ -103,6 +122,23 @@ abstract class LabVisit implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    // validate behavior
+
+    /**
+     * Flag to prevent endless validation loop, if this object is referenced
+     * by another object which falls in this transaction.
+     * @var        boolean
+     */
+    protected $alreadyInValidation = false;
+
+    /**
+     * ConstraintViolationList object
+     *
+     * @see     http://api.symfony.com/2.0/Symfony/Component/Validator/ConstraintViolationList.html
+     * @var     ConstraintViolationList
+     */
+    protected $validationFailures;
 
     /**
      * Initializes internal state of Base\LabVisit object.
@@ -340,6 +376,16 @@ abstract class LabVisit implements ActiveRecordInterface
     }
 
     /**
+     * Get the [studentid] column value.
+     *
+     * @return string
+     */
+    public function getStudentid()
+    {
+        return $this->studentid;
+    }
+
+    /**
      * Get the [optionally formatted] temporal [checkin] column value.
      *
      *
@@ -408,6 +454,26 @@ abstract class LabVisit implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [studentid] column.
+     *
+     * @param string $v new value
+     * @return $this|\LabVisit The current object (for fluent API support)
+     */
+    public function setStudentid($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->studentid !== $v) {
+            $this->studentid = $v;
+            $this->modifiedColumns[LabVisitTableMap::COL_STUDENTID] = true;
+        }
+
+        return $this;
+    } // setStudentid()
 
     /**
      * Sets the value of [checkin] column to a normalized version of the date/time value specified.
@@ -512,19 +578,22 @@ abstract class LabVisit implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : LabVisitTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : LabVisitTableMap::translateFieldName('Checkin', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : LabVisitTableMap::translateFieldName('Studentid', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->studentid = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : LabVisitTableMap::translateFieldName('Checkin', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->checkin = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : LabVisitTableMap::translateFieldName('Checkout', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : LabVisitTableMap::translateFieldName('Checkout', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->checkout = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : LabVisitTableMap::translateFieldName('Courseid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : LabVisitTableMap::translateFieldName('Courseid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->courseid = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -534,7 +603,7 @@ abstract class LabVisit implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = LabVisitTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = LabVisitTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\LabVisit'), 0, $e);
@@ -754,6 +823,9 @@ abstract class LabVisit implements ActiveRecordInterface
         if ($this->isColumnModified(LabVisitTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
+        if ($this->isColumnModified(LabVisitTableMap::COL_STUDENTID)) {
+            $modifiedColumns[':p' . $index++]  = 'studentid';
+        }
         if ($this->isColumnModified(LabVisitTableMap::COL_CHECKIN)) {
             $modifiedColumns[':p' . $index++]  = 'checkin';
         }
@@ -776,6 +848,9 @@ abstract class LabVisit implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'studentid':
+                        $stmt->bindValue($identifier, $this->studentid, PDO::PARAM_STR);
                         break;
                     case 'checkin':
                         $stmt->bindValue($identifier, $this->checkin ? $this->checkin->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
@@ -852,12 +927,15 @@ abstract class LabVisit implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getCheckin();
+                return $this->getStudentid();
                 break;
             case 2:
-                return $this->getCheckout();
+                return $this->getCheckin();
                 break;
             case 3:
+                return $this->getCheckout();
+                break;
+            case 4:
                 return $this->getCourseid();
                 break;
             default:
@@ -891,16 +969,17 @@ abstract class LabVisit implements ActiveRecordInterface
         $keys = LabVisitTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getCheckin(),
-            $keys[2] => $this->getCheckout(),
-            $keys[3] => $this->getCourseid(),
+            $keys[1] => $this->getStudentid(),
+            $keys[2] => $this->getCheckin(),
+            $keys[3] => $this->getCheckout(),
+            $keys[4] => $this->getCourseid(),
         );
-        if ($result[$keys[1]] instanceof \DateTimeInterface) {
-            $result[$keys[1]] = $result[$keys[1]]->format('c');
-        }
-
         if ($result[$keys[2]] instanceof \DateTimeInterface) {
             $result[$keys[2]] = $result[$keys[2]]->format('c');
+        }
+
+        if ($result[$keys[3]] instanceof \DateTimeInterface) {
+            $result[$keys[3]] = $result[$keys[3]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -962,12 +1041,15 @@ abstract class LabVisit implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setCheckin($value);
+                $this->setStudentid($value);
                 break;
             case 2:
-                $this->setCheckout($value);
+                $this->setCheckin($value);
                 break;
             case 3:
+                $this->setCheckout($value);
+                break;
+            case 4:
                 $this->setCourseid($value);
                 break;
         } // switch()
@@ -1000,13 +1082,16 @@ abstract class LabVisit implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCheckin($arr[$keys[1]]);
+            $this->setStudentid($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setCheckout($arr[$keys[2]]);
+            $this->setCheckin($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setCourseid($arr[$keys[3]]);
+            $this->setCheckout($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setCourseid($arr[$keys[4]]);
         }
     }
 
@@ -1051,6 +1136,9 @@ abstract class LabVisit implements ActiveRecordInterface
 
         if ($this->isColumnModified(LabVisitTableMap::COL_ID)) {
             $criteria->add(LabVisitTableMap::COL_ID, $this->id);
+        }
+        if ($this->isColumnModified(LabVisitTableMap::COL_STUDENTID)) {
+            $criteria->add(LabVisitTableMap::COL_STUDENTID, $this->studentid);
         }
         if ($this->isColumnModified(LabVisitTableMap::COL_CHECKIN)) {
             $criteria->add(LabVisitTableMap::COL_CHECKIN, $this->checkin);
@@ -1147,6 +1235,7 @@ abstract class LabVisit implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setStudentid($this->getStudentid());
         $copyObj->setCheckin($this->getCheckin());
         $copyObj->setCheckout($this->getCheckout());
         $copyObj->setCourseid($this->getCourseid());
@@ -1240,6 +1329,7 @@ abstract class LabVisit implements ActiveRecordInterface
             $this->aCourse->removeLabVisit($this);
         }
         $this->id = null;
+        $this->studentid = null;
         $this->checkin = null;
         $this->checkout = null;
         $this->courseid = null;
@@ -1274,6 +1364,83 @@ abstract class LabVisit implements ActiveRecordInterface
     public function __toString()
     {
         return (string) $this->exportTo(LabVisitTableMap::DEFAULT_STRING_FORMAT);
+    }
+
+    // validate behavior
+
+    /**
+     * Configure validators constraints. The Validator object uses this method
+     * to perform object validation.
+     *
+     * @param ClassMetadata $metadata
+     */
+    static public function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('studentid', new NotNull());
+        $metadata->addPropertyConstraint('studentid', new Regex(array ('pattern' => '/^[Ll][0-9]{8}$/','match' => true,'message' => 'Please enter a valid Lnumber',)));
+        $metadata->addPropertyConstraint('studentid', new Length(array ('min' => 9,)));
+    }
+
+    /**
+     * Validates the object and all objects related to this table.
+     *
+     * @see        getValidationFailures()
+     * @param      ValidatorInterface|null $validator A Validator class instance
+     * @return     boolean Whether all objects pass validation.
+     */
+    public function validate(ValidatorInterface $validator = null)
+    {
+        if (null === $validator) {
+            $validator = new RecursiveValidator(
+                new ExecutionContextFactory(new IdentityTranslator()),
+                new LazyLoadingMetadataFactory(new StaticMethodLoader()),
+                new ConstraintValidatorFactory()
+            );
+        }
+
+        $failureMap = new ConstraintViolationList();
+
+        if (!$this->alreadyInValidation) {
+            $this->alreadyInValidation = true;
+            $retval = null;
+
+            // We call the validate method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            // If validate() method exists, the validate-behavior is configured for related object
+            if (method_exists($this->aCourse, 'validate')) {
+                if (!$this->aCourse->validate($validator)) {
+                    $failureMap->addAll($this->aCourse->getValidationFailures());
+                }
+            }
+
+            $retval = $validator->validate($this);
+            if (count($retval) > 0) {
+                $failureMap->addAll($retval);
+            }
+
+
+            $this->alreadyInValidation = false;
+        }
+
+        $this->validationFailures = $failureMap;
+
+        return (Boolean) (!(count($this->validationFailures) > 0));
+
+    }
+
+    /**
+     * Gets any ConstraintViolation objects that resulted from last call to validate().
+     *
+     *
+     * @return     object ConstraintViolationList
+     * @see        validate()
+     */
+    public function getValidationFailures()
+    {
+        return $this->validationFailures;
     }
 
     /**

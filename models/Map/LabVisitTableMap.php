@@ -59,7 +59,7 @@ class LabVisitTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,12 +69,17 @@ class LabVisitTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the id field
      */
     const COL_ID = 'labvisit.id';
+
+    /**
+     * the column name for the studentid field
+     */
+    const COL_STUDENTID = 'labvisit.studentid';
 
     /**
      * the column name for the checkin field
@@ -103,11 +108,11 @@ class LabVisitTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Checkin', 'Checkout', 'Courseid', ),
-        self::TYPE_CAMELNAME     => array('id', 'checkin', 'checkout', 'courseid', ),
-        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID, LabVisitTableMap::COL_CHECKIN, LabVisitTableMap::COL_CHECKOUT, LabVisitTableMap::COL_COURSEID, ),
-        self::TYPE_FIELDNAME     => array('id', 'checkin', 'checkout', 'courseid', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Studentid', 'Checkin', 'Checkout', 'Courseid', ),
+        self::TYPE_CAMELNAME     => array('id', 'studentid', 'checkin', 'checkout', 'courseid', ),
+        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID, LabVisitTableMap::COL_STUDENTID, LabVisitTableMap::COL_CHECKIN, LabVisitTableMap::COL_CHECKOUT, LabVisitTableMap::COL_COURSEID, ),
+        self::TYPE_FIELDNAME     => array('id', 'studentid', 'checkin', 'checkout', 'courseid', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,11 +122,11 @@ class LabVisitTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Checkin' => 1, 'Checkout' => 2, 'Courseid' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'checkin' => 1, 'checkout' => 2, 'courseid' => 3, ),
-        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID => 0, LabVisitTableMap::COL_CHECKIN => 1, LabVisitTableMap::COL_CHECKOUT => 2, LabVisitTableMap::COL_COURSEID => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'checkin' => 1, 'checkout' => 2, 'courseid' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Studentid' => 1, 'Checkin' => 2, 'Checkout' => 3, 'Courseid' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'studentid' => 1, 'checkin' => 2, 'checkout' => 3, 'courseid' => 4, ),
+        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID => 0, LabVisitTableMap::COL_STUDENTID => 1, LabVisitTableMap::COL_CHECKIN => 2, LabVisitTableMap::COL_CHECKOUT => 3, LabVisitTableMap::COL_COURSEID => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'studentid' => 1, 'checkin' => 2, 'checkout' => 3, 'courseid' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -142,6 +147,7 @@ class LabVisitTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('studentid', 'Studentid', 'VARCHAR', true, 128, null);
         $this->addColumn('checkin', 'Checkin', 'TIMESTAMP', true, null, null);
         $this->addColumn('checkout', 'Checkout', 'TIMESTAMP', false, null, null);
         $this->addForeignKey('courseid', 'Courseid', 'INTEGER', 'course', 'id', false, null, null);
@@ -160,6 +166,19 @@ class LabVisitTableMap extends TableMap
   ),
 ), 'SET NULL', 'CASCADE', null, false);
     } // buildRelations()
+
+    /**
+     *
+     * Gets the list of behaviors registered for this table
+     *
+     * @return array Associative array (name => parameters) of behaviors
+     */
+    public function getBehaviors()
+    {
+        return array(
+            'validate' => array('rule1' => array ('column' => 'studentid','validator' => 'NotNull',), 'rule2' => array ('column' => 'studentid','validator' => 'Regex','options' => array ('pattern' => '/^[Ll][0-9]{8}$/','match' => true,'message' => 'Please enter a valid Lnumber',),), 'rule3' => array ('column' => 'studentid','validator' => 'Length','options' => array ('min' => 9,),), ),
+        );
+    } // getBehaviors()
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -303,11 +322,13 @@ class LabVisitTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(LabVisitTableMap::COL_ID);
+            $criteria->addSelectColumn(LabVisitTableMap::COL_STUDENTID);
             $criteria->addSelectColumn(LabVisitTableMap::COL_CHECKIN);
             $criteria->addSelectColumn(LabVisitTableMap::COL_CHECKOUT);
             $criteria->addSelectColumn(LabVisitTableMap::COL_COURSEID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.studentid');
             $criteria->addSelectColumn($alias . '.checkin');
             $criteria->addSelectColumn($alias . '.checkout');
             $criteria->addSelectColumn($alias . '.courseid');

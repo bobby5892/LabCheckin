@@ -21,11 +21,13 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildLabVisitQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildLabVisitQuery orderByStudentid($order = Criteria::ASC) Order by the studentid column
  * @method     ChildLabVisitQuery orderByCheckin($order = Criteria::ASC) Order by the checkin column
  * @method     ChildLabVisitQuery orderByCheckout($order = Criteria::ASC) Order by the checkout column
  * @method     ChildLabVisitQuery orderByCourseid($order = Criteria::ASC) Order by the courseid column
  *
  * @method     ChildLabVisitQuery groupById() Group by the id column
+ * @method     ChildLabVisitQuery groupByStudentid() Group by the studentid column
  * @method     ChildLabVisitQuery groupByCheckin() Group by the checkin column
  * @method     ChildLabVisitQuery groupByCheckout() Group by the checkout column
  * @method     ChildLabVisitQuery groupByCourseid() Group by the courseid column
@@ -54,6 +56,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildLabVisit findOneOrCreate(ConnectionInterface $con = null) Return the first ChildLabVisit matching the query, or a new ChildLabVisit object populated from the query conditions when no match is found
  *
  * @method     ChildLabVisit findOneById(int $id) Return the first ChildLabVisit filtered by the id column
+ * @method     ChildLabVisit findOneByStudentid(string $studentid) Return the first ChildLabVisit filtered by the studentid column
  * @method     ChildLabVisit findOneByCheckin(string $checkin) Return the first ChildLabVisit filtered by the checkin column
  * @method     ChildLabVisit findOneByCheckout(string $checkout) Return the first ChildLabVisit filtered by the checkout column
  * @method     ChildLabVisit findOneByCourseid(int $courseid) Return the first ChildLabVisit filtered by the courseid column *
@@ -62,12 +65,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildLabVisit requireOne(ConnectionInterface $con = null) Return the first ChildLabVisit matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildLabVisit requireOneById(int $id) Return the first ChildLabVisit filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildLabVisit requireOneByStudentid(string $studentid) Return the first ChildLabVisit filtered by the studentid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildLabVisit requireOneByCheckin(string $checkin) Return the first ChildLabVisit filtered by the checkin column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildLabVisit requireOneByCheckout(string $checkout) Return the first ChildLabVisit filtered by the checkout column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildLabVisit requireOneByCourseid(int $courseid) Return the first ChildLabVisit filtered by the courseid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildLabVisit[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildLabVisit objects based on current ModelCriteria
  * @method     ChildLabVisit[]|ObjectCollection findById(int $id) Return ChildLabVisit objects filtered by the id column
+ * @method     ChildLabVisit[]|ObjectCollection findByStudentid(string $studentid) Return ChildLabVisit objects filtered by the studentid column
  * @method     ChildLabVisit[]|ObjectCollection findByCheckin(string $checkin) Return ChildLabVisit objects filtered by the checkin column
  * @method     ChildLabVisit[]|ObjectCollection findByCheckout(string $checkout) Return ChildLabVisit objects filtered by the checkout column
  * @method     ChildLabVisit[]|ObjectCollection findByCourseid(int $courseid) Return ChildLabVisit objects filtered by the courseid column
@@ -169,7 +174,7 @@ abstract class LabVisitQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, checkin, checkout, courseid FROM labvisit WHERE id = :p0';
+        $sql = 'SELECT id, studentid, checkin, checkout, courseid FROM labvisit WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -298,6 +303,31 @@ abstract class LabVisitQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(LabVisitTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the studentid column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByStudentid('fooValue');   // WHERE studentid = 'fooValue'
+     * $query->filterByStudentid('%fooValue%', Criteria::LIKE); // WHERE studentid LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $studentid The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildLabVisitQuery The current query, for fluid interface
+     */
+    public function filterByStudentid($studentid = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($studentid)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(LabVisitTableMap::COL_STUDENTID, $studentid, $comparison);
     }
 
     /**

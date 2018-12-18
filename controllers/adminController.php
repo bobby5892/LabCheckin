@@ -27,9 +27,13 @@ class AdminController{
 				);
 			}
 			else{
+				$validationError = "";
+				foreach($course->getValidationFailures() as $failure){
+					$validationError .="<BR>". $failure->getMessage();
+				}
 				$response = new Response(
 					$course->validate(),
-					implode("<br>",$course->getValidationFailures())
+					$validationError
 				);	
 			}
 			

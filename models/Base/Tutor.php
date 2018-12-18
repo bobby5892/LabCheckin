@@ -22,6 +22,7 @@ use Symfony\Component\Validator\ConstraintValidatorFactory;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Context\ExecutionContextFactory;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
@@ -76,6 +77,13 @@ abstract class Tutor implements ActiveRecordInterface
      * @var        int
      */
     protected $id;
+
+    /**
+     * The value for the studentid field.
+     *
+     * @var        string
+     */
+    protected $studentid;
 
     /**
      * The value for the name field.
@@ -345,6 +353,16 @@ abstract class Tutor implements ActiveRecordInterface
     }
 
     /**
+     * Get the [studentid] column value.
+     *
+     * @return string
+     */
+    public function getStudentid()
+    {
+        return $this->studentid;
+    }
+
+    /**
      * Get the [name] column value.
      *
      * @return string
@@ -373,6 +391,26 @@ abstract class Tutor implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [studentid] column.
+     *
+     * @param string $v new value
+     * @return $this|\Tutor The current object (for fluent API support)
+     */
+    public function setStudentid($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->studentid !== $v) {
+            $this->studentid = $v;
+            $this->modifiedColumns[TutorTableMap::COL_STUDENTID] = true;
+        }
+
+        return $this;
+    } // setStudentid()
 
     /**
      * Set the value of [name] column.
@@ -433,7 +471,10 @@ abstract class Tutor implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : TutorTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TutorTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TutorTableMap::translateFieldName('Studentid', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->studentid = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TutorTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -443,7 +484,7 @@ abstract class Tutor implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = TutorTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = TutorTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Tutor'), 0, $e);
@@ -647,6 +688,9 @@ abstract class Tutor implements ActiveRecordInterface
         if ($this->isColumnModified(TutorTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
+        if ($this->isColumnModified(TutorTableMap::COL_STUDENTID)) {
+            $modifiedColumns[':p' . $index++]  = 'studentid';
+        }
         if ($this->isColumnModified(TutorTableMap::COL_NAME)) {
             $modifiedColumns[':p' . $index++]  = 'name';
         }
@@ -663,6 +707,9 @@ abstract class Tutor implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'studentid':
+                        $stmt->bindValue($identifier, $this->studentid, PDO::PARAM_STR);
                         break;
                     case 'name':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
@@ -733,6 +780,9 @@ abstract class Tutor implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
+                return $this->getStudentid();
+                break;
+            case 2:
                 return $this->getName();
                 break;
             default:
@@ -765,7 +815,8 @@ abstract class Tutor implements ActiveRecordInterface
         $keys = TutorTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getName(),
+            $keys[1] => $this->getStudentid(),
+            $keys[2] => $this->getName(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -809,6 +860,9 @@ abstract class Tutor implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
+                $this->setStudentid($value);
+                break;
+            case 2:
                 $this->setName($value);
                 break;
         } // switch()
@@ -841,7 +895,10 @@ abstract class Tutor implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setName($arr[$keys[1]]);
+            $this->setStudentid($arr[$keys[1]]);
+        }
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setName($arr[$keys[2]]);
         }
     }
 
@@ -886,6 +943,9 @@ abstract class Tutor implements ActiveRecordInterface
 
         if ($this->isColumnModified(TutorTableMap::COL_ID)) {
             $criteria->add(TutorTableMap::COL_ID, $this->id);
+        }
+        if ($this->isColumnModified(TutorTableMap::COL_STUDENTID)) {
+            $criteria->add(TutorTableMap::COL_STUDENTID, $this->studentid);
         }
         if ($this->isColumnModified(TutorTableMap::COL_NAME)) {
             $criteria->add(TutorTableMap::COL_NAME, $this->name);
@@ -976,6 +1036,7 @@ abstract class Tutor implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setStudentid($this->getStudentid());
         $copyObj->setName($this->getName());
         if ($makeNew) {
             $copyObj->setNew(true);
@@ -1013,6 +1074,7 @@ abstract class Tutor implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
+        $this->studentid = null;
         $this->name = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
@@ -1058,6 +1120,8 @@ abstract class Tutor implements ActiveRecordInterface
     {
         $metadata->addPropertyConstraint('name', new NotNull());
         $metadata->addPropertyConstraint('name', new Length(array ('max' => 64,)));
+        $metadata->addPropertyConstraint('studentid', new NotNull());
+        $metadata->addPropertyConstraint('studentid', new Regex(array ('pattern' => '/^[Ll][0-9]{8}$/','match' => true,'message' => 'Please enter a valid Lnumber',)));
     }
 
     /**

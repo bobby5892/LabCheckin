@@ -4,9 +4,9 @@
 // Routing- 
 // update propel command
 // Check for changes in schema.xml
-// php C:\wamp64\www\LabCheckin\LabCheckin\public_html\vendor\propel\propel\bin\propel.php diff
+// php C:\code\LabCheckin\public_html\vendor\propel\propel\bin\propel.php diff
 // Migrate
-// php C:\wamp64\www\LabCheckin\LabCheckin\public_html\vendor\propel\propel\bin\propel.php migrate
+// php C:\code\LabCheckin\public_html\vendor\propel\propel\bin\propel.php migrate
 //propel model:build
 namespace LabCheck;
 

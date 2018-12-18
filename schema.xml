@@ -21,19 +21,28 @@
   </table>
   <table name="labvisit" phpName="LabVisit">
 	<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+  <column name="studentid" type="varchar" size="128" required="true"/>
 	<column name="checkin" type="timestamp" required="true"/>
 	<column name="checkout" type="timestamp"/>
   <column name="courseid" type="integer"/>
+  <behavior name="validate">
+    <parameter name="rule1" value="{column: studentid, validator: NotNull}" />
+    <parameter name="rule2" value="{column: studentid, validator: Regex, options: {pattern:  &quot;/^[Ll][0-9]{8}$/&quot;, match: true, message: Please enter a valid Lnumber}}" />
+    <parameter name="rule3" value="{column: studentid, validator: Length, options: {min: 9}}"/>
+  </behavior>
 	<foreign-key foreignTable="course" onDelete="setnull" onUpdate="cascade">
     	<reference local="courseid" foreign="id" />
  	 </foreign-key>
   </table>
    <table name="tutor" phpName="Tutor">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="studentid" type="varchar" size="64" required="true"/>
     <column name="name" type="varchar" size="64" required="true" />
     <behavior name="validate">
         <parameter name="rule1" value="{column: name, validator: NotNull}" />
         <parameter name="rule2" value="{column: name, validator: Length, options: {max: 64}}" />
+        <parameter name="rule3" value="{column: studentid, validator: NotNull}" />
+        <parameter name="rule4" value="{column: studentid, validator: Regex, options: {pattern:  &quot;/^[Ll][0-9]{8}$/&quot;, match: true, message: Please enter a valid Lnumber}}" />
     </behavior>
   </table>
    <table name="labspecialist" phpName="LabSpecialist">

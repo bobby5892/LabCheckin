@@ -1,6 +1,6 @@
 <?php
 // See propel.php for Database config
-// Base Prefix is if the software is not hosted in the root of the domain
+// Base Prefix is if the software is not hosted in the root of the domain .. If you add something it will need a trailing slash
 $config['basePrefix'] = "";
 // Change salt for deploy - less than 30 chars
 $config['salt'] = "#$((@JDFIDAFHHO@lijdaflgij12340";
