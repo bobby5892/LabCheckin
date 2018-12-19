@@ -31,7 +31,19 @@ class LoginController{
 		return false;
 	}
 	public function LoginForm(){
-		return file_get_contents("../views/loginform.html");
+		$output = "";
+		$header = file_get_contents("../views/checkinheader.html");
+		$header = str_replace('{base}', $this->config["basePrefix"],$header);
+		$output .= $header;
+
+		$form = file_get_contents("../views/loginform.html"); 
+		$form = str_replace('{base}', $this->config["basePrefix"],$form);
+		$output.=$form;
+		$footer = file_get_contents("../views/checkinfooter.html");
+		$footer = str_replace('{base}', $this->config["basePrefix"],$footer);
+		$output .=$footer;
+		print $output;
+		exit;
 	}
 	public function Login(){
 		// Check for a sanitized Valid Email 

@@ -40,10 +40,18 @@ class CheckinController{
 			$labVisit = new LabVisit();
 			$labVisit->setStudentid($_POST['studentid']);
 			
-			$response = new Response($this->checkedIn($labVisit), "Student is already checked in");
-			return $response->ToJSON();
+			$boolresponse = $this->checkedIn($labVisit);
+			if($boolresponse){
+				$response = new Response(true, "Student is checked in");		
+			}
+			else{
+				$response = new Response(false, "Student is not checked in");
+			}
+			
 		}
-		$response = new Response(false, "Student is not checked in");
+		else{
+			$response = new Response(false, "No student id sent");
+		}
 		return $response->ToJSON();
 	}
 	public function GetCourses(){
@@ -59,8 +67,23 @@ class CheckinController{
 		print json_encode($courseList);
 		exit;
 	}
-	// Save Checkout/Checkin
-	public function SaveCheck(){
+	public function SaveCheckOut(){
+		$checkins = $this->getCheckinsForStudent($_POST['studentid']);
+
+		foreach ($checkins as $checkin){
+			// If its not been checked out but it is checked in
+			if(is_null($checkin->getCheckout()) && $this->checkedIn($checkin)){
+				$checkin->setCheckout(new DateTime("now"));
+				$checkin->save();
+				return (new Response(true, "Marked as checked out"))->ToJSON();
+				
+				exit;
+			}
+		}
+		return (new Response(false, "Did not find checkin"))->ToJSON();
+	}
+	// Save Checkin
+	public function SaveCheckIn(){
 		$labVisit = new LabVisit();
 		$labVisit->setStudentid($_POST['studentid']);
 		$labVisit->setCheckin(new DateTime("now"));
@@ -69,6 +92,7 @@ class CheckinController{
 		$response = "";
 		try{
 			if($labVisit->validate()){
+				// If they are checked in and not checked out
 				if($this->checkedIn($labVisit)){
 					$response = new Response(false,"Already checked in");	
 					print $response->ToJSON();
@@ -76,6 +100,8 @@ class CheckinController{
 				}
 				// Not a dupe lets save it
 				$response = new Response($labVisit->validate(),"Saved checkin");
+
+				$labVisit->save();
 			}
 			else{
 				$validationError = "";
@@ -92,26 +118,31 @@ class CheckinController{
 		print $response->ToJSON();
 		exit;
 	}
-	private function checkedIn($labVisit){
-		
-		// check for dupes
-				$dateMin = new DateTime();
-				$toMin = new DateInterval('PT12H');
-				$dateMin->sub($toMin);
-
-				$currentTime = new DateTime("now");
-
+	// Public so accessible for testing
+	public function checkedIn($labVisit){
+				$studentid = $labVisit->getStudentid();
+				
 				$checkins = LabVisitQuery::create()
-				->filterByCheckin(array("min" => $dateMin, "max" => $currentTime))
-				->filterByStudentid($labVisit->getStudentid())
+				->filterByStudentid($studentid)
 				->find();
 
 				foreach($checkins as $checkin){
-					if($checkin->getCheckout() == ""){
-						return true;
+					$checkinTime = strtotime((string)$checkin->getCheckin()->getTimestamp());
+					$checkinTimeTwelveAgo = strtotime("-12 hours");
+					if($checkinTime <= $checkinTimeTwelveAgo){
+						//print "checkin is less than 12 hrs";
+						if(is_null($checkin->getCheckout())){
+							return true;
+						}
 					}
 				}
 				return false;
+	}
+	private function getCheckinsForStudent($studentid){
+		$labVisits = LabVisitQuery::create()
+		->filterByStudentid($studentid)
+		->find();
+		return $labVisits;
 	}
 	private function contentView($newcontent){
 		// Replace absolute path for a relative path

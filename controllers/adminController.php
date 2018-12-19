@@ -5,8 +5,9 @@ class AdminController{
 		$this->config = $config;
 	}
 	public function publicIndex(){	
-		$content = "things";
-		
+		$content = "";
+		// current lab usage widget
+	    $content .= $this->partialView("admincurrentlab.html");
 		return $this->contentView($content);
 	}
 /* Classes */	
@@ -111,6 +112,70 @@ class AdminController{
 		
 		return $this->contentView($content);
 	}
+	public function getCourses(){
+		$courses = CourseQuery::create()
+		->find();
+
+		$output =  array(
+			'data' => array()
+		);
+	
+		foreach($courses as $course){
+			$temp = array(
+			'id' => $course->getId(),
+			'name' => $course->getName()
+			);
+
+			array_push($output['data'],$temp);
+		}
+		return json_encode($output);
+	}
+	public function getLiveLab(){
+		// get checkins within the last 12 hrs
+		$labVisits = LabVisitQuery::create()
+		->filterByCheckin(array('min' => strtotime("-12 hour")))
+		->find();
+		$output =  array(
+			'data' => array()
+		);
+	
+		foreach($labVisits as $labVisit){
+			// skip checkins that are already out
+			if(is_null($labVisit->getCheckout())){
+				//https://stackoverflow.com/questions/365191/how-to-get-time-difference-in-minutes-in-php
+				$time = $labVisit->getCheckin()->getTimestamp();
+				$start_date = new DateTime();
+				$start_date->setTimeStamp($time);
+				$since_start = $start_date->diff(new DateTime("now"));
+				$hrs = $since_start->h;
+				$min = $since_start->i;
+				$duration = "";
+				if($hrs > 1){
+					$duration .= $hrs . " hours ";
+				}
+				else if ($hrs == 1){
+					$duration .= $hrs . " hour ";
+				}
+				if($min <= 1){
+					$duration .= $min . " minute";
+				}
+				else{
+					$duration .= $min . " minutes";
+				}
+
+				
+				$temp = array(
+				'studentid' => $labVisit->getStudentid(),
+				'courseid' => $labVisit->getCourseid(),
+				'checkin' => $labVisit->getCheckin(),
+				'duration' => $duration
+				);
+				array_push($output['data'],$temp);
+			}
+			
+		}
+		return json_encode($output);
+	}
 /* Search */	
 	public function Search(){	
 		$content = "Not implemented";
@@ -124,20 +189,19 @@ class AdminController{
 	}
 	private function contentView($newcontent){
 		// Replace absolute path for a relative path
-		$header = file_get_contents("../views/adminheader.html");
-		$header = str_replace('{base}', $this->config["basePrefix"],$header);
+		$header = $this->partialView("adminheader.html");
+		//$header = str_replace('{base}', $this->config["basePrefix"],$header);
 		$content = $header;
 		// Replace absolute path for a relative path
-		$nav = file_get_contents("../views/adminnav.html");
-		$nav = str_replace('{base}', $this->config["basePrefix"],$nav);
+		$nav = $this->partialView("adminnav.html");
 		$content .= $nav;
 		// Add Welcome USer
-		$welcome = file_get_contents("../views/adminwelcome.html");
+		$welcome = $this->partialView("adminwelcome.html");
 		$welcome  = str_replace('{content}', "Current User: " . $_SESSION['USER']["name"], $welcome); 
 		$content .= $welcome;
 		// Add the content from method
-		$content .= $newcontent;
-		$content .= file_get_contents("../views/adminfooter.html");
+		$content .=$newcontent;
+		$content .= $this->partialView("adminfooter.html");
 		return $content;
 	}
 }

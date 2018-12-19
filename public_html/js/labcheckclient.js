@@ -2,7 +2,6 @@ class LabCheckclient{
 	constructor(){
 		this.config = config;
 		this.alertBox = document.getElementById('alertBox');
-		this.checkAction = "";
 		this.courses = [];
 		this.showCheckin = false;
 		this.showCheckout = false;
@@ -31,6 +30,7 @@ class LabCheckclient{
 /* Stage 1 */
 		this.stage1.submit.addEventListener('click', (event) =>{
 			event.preventDefault();
+			this.hideAlert();
 			this.submitLnumber();
 		});
 
@@ -39,10 +39,11 @@ class LabCheckclient{
 		});
 /* Stage 2 */
 		this.stage2.btnCheckIn.addEventListener('click', (event)  => {
-			labcheckin.submitActionSelect("checkin");
+			this.hideAlert();
+			this.submitActionSelect();
 		});	
 		this.stage2.btnCheckOut.addEventListener('click', (event)  => {
-			labcheckin.submitActionSelect("checkout");
+			this.submitCheckout();
 		});	
 		// Load Courses
 		this.getCourses();
@@ -71,6 +72,23 @@ class LabCheckclient{
 				}
 			}
 		);
+	}
+	submitCheckout(){
+		let url = location.protocol + '//' + location.hostname + "/" + this.config.base + "savecheckout";
+		console.log(url);
+		fetch(url,{
+			method: "POST",
+			headers: {'Content-Type':'application/x-www-form-urlencoded'},
+			body:  "studentid=" + this.stage1.lnumberBox.value
+		}).then(res => res.json())
+		.then(response => {
+			if(response.success == "true"){
+				this.reset();
+			}
+			else{
+				this.reset();
+			}
+		});
 	}
 	submitLnumber(){
 		// check for empty box
@@ -123,15 +141,14 @@ class LabCheckclient{
 			}
 		});
 	}
-	submitActionSelect(action){
-		this.checkAction = action;
+	submitActionSelect(){
 		this.hideContainers();
 		this.stage3.isVisible = true;
 		this.showContainer(this.stage3.container);
 	}
 	submitClassSelect(){
 		// a check in
-		let url = location.protocol + '//' + location.hostname + "/" + this.config.base + "savecheck";
+		let url = location.protocol + '//' + location.hostname + "/" + this.config.base + "savecheckin";
 		console.log(url);
 		fetch(url,{
 			method: "POST",
@@ -139,12 +156,14 @@ class LabCheckclient{
 			body:  "studentid=" + this.stage1.lnumberBox.value + "&courseid=" + this.stage3.selectClass.value
 		}).then(res => res.json())
 		.then(response => {
-			if(response.success == "true"){
+			if(response.success){
 				console.log("Good Submission");
+				this.reset();
 			}
 			else{
 				console.log("Bad Submission");
 				labcheckin.showErrorAlert(response.response);
+				this.reset();
 			}
 		});
 	}
@@ -174,6 +193,28 @@ class LabCheckclient{
 			this.stage3.isVisible = false;
 			$(this.stage3.container).fadeOut();
 		}
+	}
+	reset(){
+		// Reset visibles
+		this.stage1.isVisible = true;
+		this.stage2.isVisible = false;
+		this.stage3.isVisible = false;
+
+		$(this.stage1.container).fadeOut();
+		$(this.stage2.container).fadeOut();
+		$(this.stage3.container).fadeOut();
+
+		$(this.stage1.container).fadeIn();
+		// clear boxes
+		this.stage1.lnumberBox.value = "";
+		this.stage3.selectClass.selectedIndex = -1;
+		// hide buttons
+		$(this.stage2.btnCheckOut).hide();
+		$(this.stage2.btnCheckIn).hide();
+		// show fromt
+		this.showContainer(this.stage1.container);
+		console.log("reset for next user");
+
 	}
 }
 

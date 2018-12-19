@@ -83,6 +83,26 @@ switch ($request) {
          $content =  $loginController->LoginForm();
         }
         break;
+      case $config['basePrefix'] . '/admin/getlivelab' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->getLiveLab();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;     
+        case $config['basePrefix'] . '/admin/getcourses' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->getCourses();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;            
       case $config['basePrefix'] . '/admin/editusers' :
         if($loginController->IsLoggedIn()){
           require __DIR__ . "/../controllers/adminController.php";
@@ -98,11 +118,16 @@ switch ($request) {
           $controller = new CheckinController($config);
           $content =  $controller->GetCourses();
         break;
-     case $config['basePrefix'] . '/savecheck' :
+     case $config['basePrefix'] . '/savecheckin' :
           require __DIR__ . "/../controllers/checkinController.php";
           $controller = new CheckinController($config);
-          $content =  $controller->SaveCheck();
-        break;        
+          $content =  $controller->SaveCheckIn();
+        break;
+    case $config['basePrefix'] . '/savecheckout' :
+          require __DIR__ . "/../controllers/checkinController.php";
+          $controller = new CheckinController($config);
+          $content =  $controller->SaveCheckOut();
+        break;                        
     case $config['basePrefix'] . '/logout' :
          $content =  $loginController->LogOut();
 

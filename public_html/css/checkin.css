@@ -5,7 +5,7 @@ nav{
 	background-color:black;
 	color:white;
 }
-section{
+section,.widget{
 	width:auto;
 	background-color:white !important;
 	padding-left:5%;
@@ -71,4 +71,56 @@ section input[type="text"] {
 .container span{
 	font-family:Arial;
 	font-size:24pt;
+}
+
+/* Current Lab Usage Widget*/
+#currentLab #current-lab-refreshtimer{
+	background-color:#d3d3d3;
+	border-radius:5px;
+	padding:10px;
+	display:inline-block;
+	color:green;
+	font-size:10pt;
+	font-family:Arial Narrow;
+}
+#currentLab #current-lab-labcount{
+	background-color:#d3d3d3;
+	border-radius:5px;
+	padding:10px;
+	display:inline-block;
+	color:green;
+	font-size:10pt;
+	font-family:Arial Narrow;
+}
+
+#currentLab .currentLab-table{
+	background-color:gray;
+	border-radius:3px;
+	padding-top:10px;
+	padding-bottom:10px;
+	
+	padding-right:40px;
+
+}
+#currentLab .currentLab-table .studentid {
+	padding-left:40px;
+	font-size:8pt;
+}
+#currentLab .currentLab-table .course {
+	font-size:10pt;
+	padding-left:15px;
+	font-weight:bold;
+	padding-right:15px;
+}
+#currentLab .currentLab-table .duration {
+	font-size:8pt;
+	padding-right:40px;
+}
+#currentLab .currentLab-table .buttonContainer {
+	padding-right:40px;
+}
+#currentLab .currentLab-table tr{
+	padding-top:25px;
+	padding-bottom:25px;
+
 }

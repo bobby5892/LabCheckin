@@ -1,6 +1,6 @@
 RewriteEngine on
 ## Ignore certain folders
-RewriteRule ^(css|js|libs)($|/) - [L]
+RewriteRule ^(css|js|libs|imgs)($|/) - [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
