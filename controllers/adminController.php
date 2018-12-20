@@ -1,20 +1,43 @@
 <?php
+/*
+[---------------------------------------------------]
+
+   __       _         ___ _               _    
+  / /  __ _| |__     / __\ |__   ___  ___| | __
+ / /  / _` | '_ \   / /  | '_ \ / _ \/ __| |/ /
+/ /__| (_| | |_) | / /___| | | |  __/ (__|   < 
+\____/\__,_|_.__/  \____/|_| |_|\___|\___|_|\_\
+
+[---------------------------------------------------]                                               
+
+Lab Check
+by Robert Moore 12/19/2018
+
+robert@eugeneprogramming.com
+https://github.com/bobby5892/LabCheckin
+
+License CC BY 
+https://creativecommons.org/licenses/by/4.0/
+*/
 require("../models/Response.php");
+require('../controllers/templateController.php');
+
 class AdminController{
 	function __construct($config){
 		$this->config = $config;
+		$this->template = new TemplateController($config);
 	}
 	public function publicIndex(){	
 		$content = "";
 		// current lab usage widget
-	    $content .= $this->partialView("admincurrentlab.html");
-		return $this->contentView($content);
+	    $content .= $this->template->partialView("admincurrentlab.html");
+		return $this->template->adminContentView($content);
 	}
 /* Classes */	
 	public function editCourses(){
 		$content = "";
 		// Navbar
-		$content .= $this->partialView("coursenav.html");
+		$content .= $this->template->partialView("coursenav.html");
 
 		if((isset($_POST['save'])) && ($_POST['save'] == true)){
 			// Add a course
@@ -57,13 +80,12 @@ class AdminController{
 			if($course->validate() && ($IsDupe == false)){
 				$course->save();
 			}
-			print $response->ToJSON();
+			$response->ToJSON();
 		
-			exit;
 
 		}
 		else if((isset($_GET['section'])) && ($_GET['section'] == "add")){
-			$content .= $this->partialView("courseaddform.html");
+			$content .= $this->template->partialView("courseaddform.html");
 		}
 		else if((isset($_GET['section'])) && ($_GET['section'] == "data")){
 			// New array
@@ -89,29 +111,19 @@ class AdminController{
 			 )});
 			</script>";
 			// show coures
-			$content .= $this->partialView("courselist.html");
+			$content .= $this->template->partialView("courselist.html");
 		}
 
-		return $this->contentView($content);
+		return $this->template->adminContentView($content);
 	}
 
 /* Users */	
 	public function editUsers(){	
 		$content = "edit users";
 		
-		return $this->contentView($content);
+		return $this->template->adminContentView($content);
 	}
-/* Reports */	
-	public function reportsByClass(){	
-		$content = "reportsByClass";
-		
-		return $this->contentView($content);
-	}
-	public function reportsByPeriod(){	
-		$content = "reportsByPeriod";
-		
-		return $this->contentView($content);
-	}
+
 	public function getCourses(){
 		$courses = CourseQuery::create()
 		->find();
@@ -172,7 +184,6 @@ class AdminController{
 				);
 				array_push($output['data'],$temp);
 			}
-			
 		}
 		return json_encode($output);
 	}
@@ -180,28 +191,7 @@ class AdminController{
 	public function Search(){	
 		$content = "Not implemented";
 		
-		return $this->contentView($content);
+		return $this->template->adminContentView($content);
 	}
-	private function partialView($filename){
-		$content = file_get_contents("../views/" . $filename);
-		$content = str_replace('{base}', $this->config["basePrefix"],$content);
-		return $content;
-	}
-	private function contentView($newcontent){
-		// Replace absolute path for a relative path
-		$header = $this->partialView("adminheader.html");
-		//$header = str_replace('{base}', $this->config["basePrefix"],$header);
-		$content = $header;
-		// Replace absolute path for a relative path
-		$nav = $this->partialView("adminnav.html");
-		$content .= $nav;
-		// Add Welcome USer
-		$welcome = $this->partialView("adminwelcome.html");
-		$welcome  = str_replace('{content}', "Current User: " . $_SESSION['USER']["name"], $welcome); 
-		$content .= $welcome;
-		// Add the content from method
-		$content .=$newcontent;
-		$content .= $this->partialView("adminfooter.html");
-		return $content;
-	}
+
 }

@@ -25,12 +25,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildLabVisitQuery orderByCheckin($order = Criteria::ASC) Order by the checkin column
  * @method     ChildLabVisitQuery orderByCheckout($order = Criteria::ASC) Order by the checkout column
  * @method     ChildLabVisitQuery orderByCourseid($order = Criteria::ASC) Order by the courseid column
+ * @method     ChildLabVisitQuery orderBySortableRank($order = Criteria::ASC) Order by the sortable_rank column
  *
  * @method     ChildLabVisitQuery groupById() Group by the id column
  * @method     ChildLabVisitQuery groupByStudentid() Group by the studentid column
  * @method     ChildLabVisitQuery groupByCheckin() Group by the checkin column
  * @method     ChildLabVisitQuery groupByCheckout() Group by the checkout column
  * @method     ChildLabVisitQuery groupByCourseid() Group by the courseid column
+ * @method     ChildLabVisitQuery groupBySortableRank() Group by the sortable_rank column
  *
  * @method     ChildLabVisitQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildLabVisitQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -59,7 +61,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildLabVisit findOneByStudentid(string $studentid) Return the first ChildLabVisit filtered by the studentid column
  * @method     ChildLabVisit findOneByCheckin(string $checkin) Return the first ChildLabVisit filtered by the checkin column
  * @method     ChildLabVisit findOneByCheckout(string $checkout) Return the first ChildLabVisit filtered by the checkout column
- * @method     ChildLabVisit findOneByCourseid(int $courseid) Return the first ChildLabVisit filtered by the courseid column *
+ * @method     ChildLabVisit findOneByCourseid(int $courseid) Return the first ChildLabVisit filtered by the courseid column
+ * @method     ChildLabVisit findOneBySortableRank(int $sortable_rank) Return the first ChildLabVisit filtered by the sortable_rank column *
 
  * @method     ChildLabVisit requirePk($key, ConnectionInterface $con = null) Return the ChildLabVisit by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildLabVisit requireOne(ConnectionInterface $con = null) Return the first ChildLabVisit matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -69,6 +72,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildLabVisit requireOneByCheckin(string $checkin) Return the first ChildLabVisit filtered by the checkin column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildLabVisit requireOneByCheckout(string $checkout) Return the first ChildLabVisit filtered by the checkout column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildLabVisit requireOneByCourseid(int $courseid) Return the first ChildLabVisit filtered by the courseid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildLabVisit requireOneBySortableRank(int $sortable_rank) Return the first ChildLabVisit filtered by the sortable_rank column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildLabVisit[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildLabVisit objects based on current ModelCriteria
  * @method     ChildLabVisit[]|ObjectCollection findById(int $id) Return ChildLabVisit objects filtered by the id column
@@ -76,6 +80,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildLabVisit[]|ObjectCollection findByCheckin(string $checkin) Return ChildLabVisit objects filtered by the checkin column
  * @method     ChildLabVisit[]|ObjectCollection findByCheckout(string $checkout) Return ChildLabVisit objects filtered by the checkout column
  * @method     ChildLabVisit[]|ObjectCollection findByCourseid(int $courseid) Return ChildLabVisit objects filtered by the courseid column
+ * @method     ChildLabVisit[]|ObjectCollection findBySortableRank(int $sortable_rank) Return ChildLabVisit objects filtered by the sortable_rank column
  * @method     ChildLabVisit[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -174,7 +179,7 @@ abstract class LabVisitQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, studentid, checkin, checkout, courseid FROM labvisit WHERE id = :p0';
+        $sql = 'SELECT id, studentid, checkin, checkout, courseid, sortable_rank FROM labvisit WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -460,6 +465,47 @@ abstract class LabVisitQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the sortable_rank column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySortableRank(1234); // WHERE sortable_rank = 1234
+     * $query->filterBySortableRank(array(12, 34)); // WHERE sortable_rank IN (12, 34)
+     * $query->filterBySortableRank(array('min' => 12)); // WHERE sortable_rank > 12
+     * </code>
+     *
+     * @param     mixed $sortableRank The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildLabVisitQuery The current query, for fluid interface
+     */
+    public function filterBySortableRank($sortableRank = null, $comparison = null)
+    {
+        if (is_array($sortableRank)) {
+            $useMinMax = false;
+            if (isset($sortableRank['min'])) {
+                $this->addUsingAlias(LabVisitTableMap::COL_SORTABLE_RANK, $sortableRank['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($sortableRank['max'])) {
+                $this->addUsingAlias(LabVisitTableMap::COL_SORTABLE_RANK, $sortableRank['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(LabVisitTableMap::COL_SORTABLE_RANK, $sortableRank, $comparison);
+    }
+
+    /**
      * Filter the query by a related \Course object
      *
      * @param \Course|ObjectCollection $course The related object(s) to use as filter
@@ -611,6 +657,226 @@ abstract class LabVisitQuery extends ModelCriteria
 
             return $affectedRows;
         });
+    }
+
+    // sortable behavior
+
+    /**
+     * Filter the query based on a rank in the list
+     *
+     * @param     integer   $rank rank
+     *
+     * @return    ChildLabVisitQuery The current query, for fluid interface
+     */
+    public function filterByRank($rank)
+    {
+
+        return $this
+            ->addUsingAlias(LabVisitTableMap::RANK_COL, $rank, Criteria::EQUAL);
+    }
+
+    /**
+     * Order the query based on the rank in the list.
+     * Using the default $order, returns the item with the lowest rank first
+     *
+     * @param     string $order either Criteria::ASC (default) or Criteria::DESC
+     *
+     * @return    $this|ChildLabVisitQuery The current query, for fluid interface
+     */
+    public function orderByRank($order = Criteria::ASC)
+    {
+        $order = strtoupper($order);
+        switch ($order) {
+            case Criteria::ASC:
+                return $this->addAscendingOrderByColumn($this->getAliasedColName(LabVisitTableMap::RANK_COL));
+                break;
+            case Criteria::DESC:
+                return $this->addDescendingOrderByColumn($this->getAliasedColName(LabVisitTableMap::RANK_COL));
+                break;
+            default:
+                throw new \Propel\Runtime\Exception\PropelException('ChildLabVisitQuery::orderBy() only accepts "asc" or "desc" as argument');
+        }
+    }
+
+    /**
+     * Get an item from the list based on its rank
+     *
+     * @param     integer   $rank rank
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return    ChildLabVisit
+     */
+    public function findOneByRank($rank, ConnectionInterface $con = null)
+    {
+
+        return $this
+            ->filterByRank($rank)
+            ->findOne($con);
+    }
+
+    /**
+     * Returns the list of objects
+     *
+     * @param      ConnectionInterface $con    Connection to use.
+     *
+     * @return     mixed the list of results, formatted by the current formatter
+     */
+    public function findList($con = null)
+    {
+
+        return $this
+            ->orderByRank()
+            ->find($con);
+    }
+
+    /**
+     * Get the highest rank
+     *
+     * @param     ConnectionInterface optional connection
+     *
+     * @return    integer highest position
+     */
+    public function getMaxRank(ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getReadConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+        // shift the objects with a position lower than the one of object
+        $this->addSelectColumn('MAX(' . LabVisitTableMap::RANK_COL . ')');
+        $stmt = $this->doSelect($con);
+
+        return $stmt->fetchColumn();
+    }
+
+    /**
+     * Get the highest rank by a scope with a array format.
+     *
+     * @param     ConnectionInterface optional connection
+     *
+     * @return    integer highest position
+     */
+    public function getMaxRankArray(ConnectionInterface $con = null)
+    {
+        if ($con === null) {
+            $con = Propel::getConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+        // shift the objects with a position lower than the one of object
+        $this->addSelectColumn('MAX(' . LabVisitTableMap::RANK_COL . ')');
+        $stmt = $this->doSelect($con);
+
+        return $stmt->fetchColumn();
+    }
+
+    /**
+     * Get an item from the list based on its rank
+     *
+     * @param     integer   $rank rank
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return ChildLabVisit
+     */
+    static public function retrieveByRank($rank, ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getReadConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+
+        $c = new Criteria;
+        $c->add(LabVisitTableMap::RANK_COL, $rank);
+
+        return static::create(null, $c)->findOne($con);
+    }
+
+    /**
+     * Reorder a set of sortable objects based on a list of id/position
+     * Beware that there is no check made on the positions passed
+     * So incoherent positions will result in an incoherent list
+     *
+     * @param     mixed               $order id => rank pairs
+     * @param     ConnectionInterface $con   optional connection
+     *
+     * @return    boolean true if the reordering took place, false if a database problem prevented it
+     */
+    public function reorder($order, ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getReadConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+
+        $con->transaction(function () use ($con, $order) {
+            $ids = array_keys($order);
+            $objects = $this->findPks($ids, $con);
+            foreach ($objects as $object) {
+                $pk = $object->getPrimaryKey();
+                if ($object->getSortableRank() != $order[$pk]) {
+                    $object->setSortableRank($order[$pk]);
+                    $object->save($con);
+                }
+            }
+        });
+
+        return true;
+    }
+
+    /**
+     * Return an array of sortable objects ordered by position
+     *
+     * @param     Criteria  $criteria  optional criteria object
+     * @param     string    $order     sorting order, to be chosen between Criteria::ASC (default) and Criteria::DESC
+     * @param     ConnectionInterface $con       optional connection
+     *
+     * @return    array list of sortable objects
+     */
+    static public function doSelectOrderByRank(Criteria $criteria = null, $order = Criteria::ASC, ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getReadConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+
+        if (null === $criteria) {
+            $criteria = new Criteria();
+        } elseif ($criteria instanceof Criteria) {
+            $criteria = clone $criteria;
+        }
+
+        $criteria->clearOrderByColumns();
+
+        if (Criteria::ASC == $order) {
+            $criteria->addAscendingOrderByColumn(LabVisitTableMap::RANK_COL);
+        } else {
+            $criteria->addDescendingOrderByColumn(LabVisitTableMap::RANK_COL);
+        }
+
+        return ChildLabVisitQuery::create(null, $criteria)->find($con);
+    }
+
+    /**
+     * Adds $delta to all Rank values that are >= $first and <= $last.
+     * '$delta' can also be negative.
+     *
+     * @param      int $delta Value to be shifted by, can be negative
+     * @param      int $first First node to be shifted
+     * @param      int $last  Last node to be shifted
+     * @param      ConnectionInterface $con Connection to use.
+     */
+    static public function sortableShiftRank($delta, $first, $last = null, ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+
+        $whereCriteria = new Criteria(LabVisitTableMap::DATABASE_NAME);
+        $criterion = $whereCriteria->getNewCriterion(LabVisitTableMap::RANK_COL, $first, Criteria::GREATER_EQUAL);
+        if (null !== $last) {
+            $criterion->addAnd($whereCriteria->getNewCriterion(LabVisitTableMap::RANK_COL, $last, Criteria::LESS_EQUAL));
+        }
+        $whereCriteria->add($criterion);
+
+        $valuesCriteria = new Criteria(LabVisitTableMap::DATABASE_NAME);
+        $valuesCriteria->add(LabVisitTableMap::RANK_COL, array('raw' => LabVisitTableMap::RANK_COL . ' + ?', 'value' => $delta), Criteria::CUSTOM_EQUAL);
+
+        $whereCriteria->doUpdate($valuesCriteria, $con);
+        LabVisitTableMap::clearInstancePool();
     }
 
 } // LabVisitQuery

@@ -4,6 +4,7 @@ namespace Base;
 
 use \Course as ChildCourse;
 use \CourseQuery as ChildCourseQuery;
+use \LabVisit as ChildLabVisit;
 use \LabVisitQuery as ChildLabVisitQuery;
 use \DateTime;
 use \Exception;
@@ -111,6 +112,13 @@ abstract class LabVisit implements ActiveRecordInterface
     protected $courseid;
 
     /**
+     * The value for the sortable_rank field.
+     *
+     * @var        int
+     */
+    protected $sortable_rank;
+
+    /**
      * @var        ChildCourse
      */
     protected $aCourse;
@@ -139,6 +147,14 @@ abstract class LabVisit implements ActiveRecordInterface
      * @var     ConstraintViolationList
      */
     protected $validationFailures;
+
+    // sortable behavior
+
+    /**
+     * Queries to be executed in the save transaction
+     * @var        array
+     */
+    protected $sortableQueries = array();
 
     /**
      * Initializes internal state of Base\LabVisit object.
@@ -436,6 +452,16 @@ abstract class LabVisit implements ActiveRecordInterface
     }
 
     /**
+     * Get the [sortable_rank] column value.
+     *
+     * @return int
+     */
+    public function getSortableRank()
+    {
+        return $this->sortable_rank;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -540,6 +566,26 @@ abstract class LabVisit implements ActiveRecordInterface
     } // setCourseid()
 
     /**
+     * Set the value of [sortable_rank] column.
+     *
+     * @param int $v new value
+     * @return $this|\LabVisit The current object (for fluent API support)
+     */
+    public function setSortableRank($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->sortable_rank !== $v) {
+            $this->sortable_rank = $v;
+            $this->modifiedColumns[LabVisitTableMap::COL_SORTABLE_RANK] = true;
+        }
+
+        return $this;
+    } // setSortableRank()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -595,6 +641,9 @@ abstract class LabVisit implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : LabVisitTableMap::translateFieldName('Courseid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->courseid = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : LabVisitTableMap::translateFieldName('SortableRank', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->sortable_rank = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -603,7 +652,7 @@ abstract class LabVisit implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = LabVisitTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = LabVisitTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\LabVisit'), 0, $e);
@@ -694,6 +743,11 @@ abstract class LabVisit implements ActiveRecordInterface
             $deleteQuery = ChildLabVisitQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
+            // sortable behavior
+
+            ChildLabVisitQuery::sortableShiftRank(-1, $this->getSortableRank() + 1, null, $con);
+            LabVisitTableMap::clearInstancePool();
+
             if ($ret) {
                 $deleteQuery->delete($con);
                 $this->postDelete($con);
@@ -732,8 +786,15 @@ abstract class LabVisit implements ActiveRecordInterface
         return $con->transaction(function () use ($con) {
             $ret = $this->preSave($con);
             $isInsert = $this->isNew();
+            // sortable behavior
+            $this->processSortableQueries($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
+                // sortable behavior
+                if (!$this->isColumnModified(LabVisitTableMap::RANK_COL)) {
+                    $this->setSortableRank(ChildLabVisitQuery::create()->getMaxRankArray($con) + 1);
+                }
+
             } else {
                 $ret = $ret && $this->preUpdate($con);
             }
@@ -835,6 +896,9 @@ abstract class LabVisit implements ActiveRecordInterface
         if ($this->isColumnModified(LabVisitTableMap::COL_COURSEID)) {
             $modifiedColumns[':p' . $index++]  = 'courseid';
         }
+        if ($this->isColumnModified(LabVisitTableMap::COL_SORTABLE_RANK)) {
+            $modifiedColumns[':p' . $index++]  = 'sortable_rank';
+        }
 
         $sql = sprintf(
             'INSERT INTO labvisit (%s) VALUES (%s)',
@@ -860,6 +924,9 @@ abstract class LabVisit implements ActiveRecordInterface
                         break;
                     case 'courseid':
                         $stmt->bindValue($identifier, $this->courseid, PDO::PARAM_INT);
+                        break;
+                    case 'sortable_rank':
+                        $stmt->bindValue($identifier, $this->sortable_rank, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -938,6 +1005,9 @@ abstract class LabVisit implements ActiveRecordInterface
             case 4:
                 return $this->getCourseid();
                 break;
+            case 5:
+                return $this->getSortableRank();
+                break;
             default:
                 return null;
                 break;
@@ -973,6 +1043,7 @@ abstract class LabVisit implements ActiveRecordInterface
             $keys[2] => $this->getCheckin(),
             $keys[3] => $this->getCheckout(),
             $keys[4] => $this->getCourseid(),
+            $keys[5] => $this->getSortableRank(),
         );
         if ($result[$keys[2]] instanceof \DateTimeInterface) {
             $result[$keys[2]] = $result[$keys[2]]->format('c');
@@ -1052,6 +1123,9 @@ abstract class LabVisit implements ActiveRecordInterface
             case 4:
                 $this->setCourseid($value);
                 break;
+            case 5:
+                $this->setSortableRank($value);
+                break;
         } // switch()
 
         return $this;
@@ -1092,6 +1166,9 @@ abstract class LabVisit implements ActiveRecordInterface
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setCourseid($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setSortableRank($arr[$keys[5]]);
         }
     }
 
@@ -1148,6 +1225,9 @@ abstract class LabVisit implements ActiveRecordInterface
         }
         if ($this->isColumnModified(LabVisitTableMap::COL_COURSEID)) {
             $criteria->add(LabVisitTableMap::COL_COURSEID, $this->courseid);
+        }
+        if ($this->isColumnModified(LabVisitTableMap::COL_SORTABLE_RANK)) {
+            $criteria->add(LabVisitTableMap::COL_SORTABLE_RANK, $this->sortable_rank);
         }
 
         return $criteria;
@@ -1239,6 +1319,7 @@ abstract class LabVisit implements ActiveRecordInterface
         $copyObj->setCheckin($this->getCheckin());
         $copyObj->setCheckout($this->getCheckout());
         $copyObj->setCourseid($this->getCourseid());
+        $copyObj->setSortableRank($this->getSortableRank());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1333,6 +1414,7 @@ abstract class LabVisit implements ActiveRecordInterface
         $this->checkin = null;
         $this->checkout = null;
         $this->courseid = null;
+        $this->sortable_rank = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1441,6 +1523,332 @@ abstract class LabVisit implements ActiveRecordInterface
     public function getValidationFailures()
     {
         return $this->validationFailures;
+    }
+
+    // sortable behavior
+
+    /**
+     * Wrap the getter for rank value
+     *
+     * @return    int
+     */
+    public function getRank()
+    {
+        return $this->sortable_rank;
+    }
+
+    /**
+     * Wrap the setter for rank value
+     *
+     * @param     int
+     * @return    $this|ChildLabVisit
+     */
+    public function setRank($v)
+    {
+        return $this->setSortableRank($v);
+    }
+
+    /**
+     * Check if the object is first in the list, i.e. if it has 1 for rank
+     *
+     * @return    boolean
+     */
+    public function isFirst()
+    {
+        return $this->getSortableRank() == 1;
+    }
+
+    /**
+     * Check if the object is last in the list, i.e. if its rank is the highest rank
+     *
+     * @param     ConnectionInterface  $con      optional connection
+     *
+     * @return    boolean
+     */
+    public function isLast(ConnectionInterface $con = null)
+    {
+        return $this->getSortableRank() == ChildLabVisitQuery::create()->getMaxRankArray($con);
+    }
+
+    /**
+     * Get the next item in the list, i.e. the one for which rank is immediately higher
+     *
+     * @param     ConnectionInterface  $con      optional connection
+     *
+     * @return    ChildLabVisit
+     */
+    public function getNext(ConnectionInterface $con = null)
+    {
+
+        $query = ChildLabVisitQuery::create();
+
+        $query->filterByRank($this->getSortableRank() + 1);
+
+
+        return $query->findOne($con);
+    }
+
+    /**
+     * Get the previous item in the list, i.e. the one for which rank is immediately lower
+     *
+     * @param     ConnectionInterface  $con      optional connection
+     *
+     * @return    ChildLabVisit
+     */
+    public function getPrevious(ConnectionInterface $con = null)
+    {
+
+        $query = ChildLabVisitQuery::create();
+
+        $query->filterByRank($this->getSortableRank() - 1);
+
+
+        return $query->findOne($con);
+    }
+
+    /**
+     * Insert at specified rank
+     * The modifications are not persisted until the object is saved.
+     *
+     * @param     integer    $rank rank value
+     * @param     ConnectionInterface  $con      optional connection
+     *
+     * @return    $this|ChildLabVisit the current object
+     *
+     * @throws    PropelException
+     */
+    public function insertAtRank($rank, ConnectionInterface $con = null)
+    {
+        $maxRank = ChildLabVisitQuery::create()->getMaxRankArray($con);
+        if ($rank < 1 || $rank > $maxRank + 1) {
+            throw new PropelException('Invalid rank ' . $rank);
+        }
+        // move the object in the list, at the given rank
+        $this->setSortableRank($rank);
+        if ($rank != $maxRank + 1) {
+            // Keep the list modification query for the save() transaction
+            $this->sortableQueries []= array(
+                'callable'  => array('\LabVisitQuery', 'sortableShiftRank'),
+                'arguments' => array(1, $rank, null, )
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Insert in the last rank
+     * The modifications are not persisted until the object is saved.
+     *
+     * @param ConnectionInterface $con optional connection
+     *
+     * @return    $this|ChildLabVisit the current object
+     *
+     * @throws    PropelException
+     */
+    public function insertAtBottom(ConnectionInterface $con = null)
+    {
+        $this->setSortableRank(ChildLabVisitQuery::create()->getMaxRankArray($con) + 1);
+
+        return $this;
+    }
+
+    /**
+     * Insert in the first rank
+     * The modifications are not persisted until the object is saved.
+     *
+     * @return    $this|ChildLabVisit the current object
+     */
+    public function insertAtTop()
+    {
+        return $this->insertAtRank(1);
+    }
+
+    /**
+     * Move the object to a new rank, and shifts the rank
+     * Of the objects inbetween the old and new rank accordingly
+     *
+     * @param     integer   $newRank rank value
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return    $this|ChildLabVisit the current object
+     *
+     * @throws    PropelException
+     */
+    public function moveToRank($newRank, ConnectionInterface $con = null)
+    {
+        if ($this->isNew()) {
+            throw new PropelException('New objects cannot be moved. Please use insertAtRank() instead');
+        }
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+        if ($newRank < 1 || $newRank > ChildLabVisitQuery::create()->getMaxRankArray($con)) {
+            throw new PropelException('Invalid rank ' . $newRank);
+        }
+
+        $oldRank = $this->getSortableRank();
+        if ($oldRank == $newRank) {
+            return $this;
+        }
+
+        $con->transaction(function () use ($con, $oldRank, $newRank) {
+            // shift the objects between the old and the new rank
+            $delta = ($oldRank < $newRank) ? -1 : 1;
+            ChildLabVisitQuery::sortableShiftRank($delta, min($oldRank, $newRank), max($oldRank, $newRank), $con);
+
+            // move the object to its new rank
+            $this->setSortableRank($newRank);
+            $this->save($con);
+        });
+
+        return $this;
+    }
+
+    /**
+     * Exchange the rank of the object with the one passed as argument, and saves both objects
+     *
+     * @param     ChildLabVisit $object
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return    $this|ChildLabVisit the current object
+     *
+     * @throws Exception if the database cannot execute the two updates
+     */
+    public function swapWith($object, ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+        $con->transaction(function () use ($con, $object) {
+            $oldRank = $this->getSortableRank();
+            $newRank = $object->getSortableRank();
+
+            $this->setSortableRank($newRank);
+            $object->setSortableRank($oldRank);
+
+            $this->save($con);
+            $object->save($con);
+        });
+
+        return $this;
+    }
+
+    /**
+     * Move the object higher in the list, i.e. exchanges its rank with the one of the previous object
+     *
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return    $this|ChildLabVisit the current object
+     */
+    public function moveUp(ConnectionInterface $con = null)
+    {
+        if ($this->isFirst()) {
+            return $this;
+        }
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+        $con->transaction(function () use ($con) {
+            $prev = $this->getPrevious($con);
+            $this->swapWith($prev, $con);
+        });
+
+        return $this;
+    }
+
+    /**
+     * Move the object higher in the list, i.e. exchanges its rank with the one of the next object
+     *
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return    $this|ChildLabVisit the current object
+     */
+    public function moveDown(ConnectionInterface $con = null)
+    {
+        if ($this->isLast($con)) {
+            return $this;
+        }
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+        $con->transaction(function () use ($con) {
+            $next = $this->getNext($con);
+            $this->swapWith($next, $con);
+        });
+
+        return $this;
+    }
+
+    /**
+     * Move the object to the top of the list
+     *
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return    $this|ChildLabVisit the current object
+     */
+    public function moveToTop(ConnectionInterface $con = null)
+    {
+        if ($this->isFirst()) {
+            return $this;
+        }
+
+        return $this->moveToRank(1, $con);
+    }
+
+    /**
+     * Move the object to the bottom of the list
+     *
+     * @param     ConnectionInterface $con optional connection
+     *
+     * @return integer the old object's rank
+     */
+    public function moveToBottom(ConnectionInterface $con = null)
+    {
+        if ($this->isLast($con)) {
+            return false;
+        }
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(LabVisitTableMap::DATABASE_NAME);
+        }
+
+        return $con->transaction(function () use ($con) {
+            $bottom = ChildLabVisitQuery::create()->getMaxRankArray($con);
+
+            return $this->moveToRank($bottom, $con);
+        });
+    }
+
+    /**
+     * Removes the current object from the list.
+     * The modifications are not persisted until the object is saved.
+     *
+     * @return    $this|ChildLabVisit the current object
+     */
+    public function removeFromList()
+    {
+        // Keep the list modification query for the save() transaction
+        $this->sortableQueries[] = array(
+            'callable'  => array('\LabVisitQuery', 'sortableShiftRank'),
+            'arguments' => array(-1, $this->getSortableRank() + 1, null)
+        );
+        // remove the object from the list
+        $this->setSortableRank(null);
+
+
+        return $this;
+    }
+
+    /**
+     * Execute queries that were saved to be run inside the save transaction
+     */
+    protected function processSortableQueries($con)
+    {
+        foreach ($this->sortableQueries as $query) {
+            $query['arguments'][]= $con;
+            call_user_func_array($query['callable'], $query['arguments']);
+        }
+        $this->sortableQueries = array();
     }
 
     /**

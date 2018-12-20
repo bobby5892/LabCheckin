@@ -30,6 +30,7 @@
     <parameter name="rule2" value="{column: studentid, validator: Regex, options: {pattern:  &quot;/^[Ll][0-9]{8}$/&quot;, match: true, message: Please enter a valid Lnumber}}" />
     <parameter name="rule3" value="{column: studentid, validator: Length, options: {min: 9}}"/>
   </behavior>
+   <behavior name="sortable" />
 	<foreign-key foreignTable="course" onDelete="setnull" onUpdate="cascade">
     	<reference local="courseid" foreign="id" />
  	 </foreign-key>

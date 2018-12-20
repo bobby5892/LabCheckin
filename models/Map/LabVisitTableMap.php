@@ -59,7 +59,7 @@ class LabVisitTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class LabVisitTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the id field
@@ -97,9 +97,21 @@ class LabVisitTableMap extends TableMap
     const COL_COURSEID = 'labvisit.courseid';
 
     /**
+     * the column name for the sortable_rank field
+     */
+    const COL_SORTABLE_RANK = 'labvisit.sortable_rank';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
+
+    // sortable behavior
+    /**
+     * rank column
+     */
+    const RANK_COL = "labvisit.sortable_rank";
+
 
     /**
      * holds an array of fieldnames
@@ -108,11 +120,11 @@ class LabVisitTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Studentid', 'Checkin', 'Checkout', 'Courseid', ),
-        self::TYPE_CAMELNAME     => array('id', 'studentid', 'checkin', 'checkout', 'courseid', ),
-        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID, LabVisitTableMap::COL_STUDENTID, LabVisitTableMap::COL_CHECKIN, LabVisitTableMap::COL_CHECKOUT, LabVisitTableMap::COL_COURSEID, ),
-        self::TYPE_FIELDNAME     => array('id', 'studentid', 'checkin', 'checkout', 'courseid', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id', 'Studentid', 'Checkin', 'Checkout', 'Courseid', 'SortableRank', ),
+        self::TYPE_CAMELNAME     => array('id', 'studentid', 'checkin', 'checkout', 'courseid', 'sortableRank', ),
+        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID, LabVisitTableMap::COL_STUDENTID, LabVisitTableMap::COL_CHECKIN, LabVisitTableMap::COL_CHECKOUT, LabVisitTableMap::COL_COURSEID, LabVisitTableMap::COL_SORTABLE_RANK, ),
+        self::TYPE_FIELDNAME     => array('id', 'studentid', 'checkin', 'checkout', 'courseid', 'sortable_rank', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -122,11 +134,11 @@ class LabVisitTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Studentid' => 1, 'Checkin' => 2, 'Checkout' => 3, 'Courseid' => 4, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'studentid' => 1, 'checkin' => 2, 'checkout' => 3, 'courseid' => 4, ),
-        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID => 0, LabVisitTableMap::COL_STUDENTID => 1, LabVisitTableMap::COL_CHECKIN => 2, LabVisitTableMap::COL_CHECKOUT => 3, LabVisitTableMap::COL_COURSEID => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'studentid' => 1, 'checkin' => 2, 'checkout' => 3, 'courseid' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Studentid' => 1, 'Checkin' => 2, 'Checkout' => 3, 'Courseid' => 4, 'SortableRank' => 5, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'studentid' => 1, 'checkin' => 2, 'checkout' => 3, 'courseid' => 4, 'sortableRank' => 5, ),
+        self::TYPE_COLNAME       => array(LabVisitTableMap::COL_ID => 0, LabVisitTableMap::COL_STUDENTID => 1, LabVisitTableMap::COL_CHECKIN => 2, LabVisitTableMap::COL_CHECKOUT => 3, LabVisitTableMap::COL_COURSEID => 4, LabVisitTableMap::COL_SORTABLE_RANK => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'studentid' => 1, 'checkin' => 2, 'checkout' => 3, 'courseid' => 4, 'sortable_rank' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -151,6 +163,7 @@ class LabVisitTableMap extends TableMap
         $this->addColumn('checkin', 'Checkin', 'TIMESTAMP', true, null, null);
         $this->addColumn('checkout', 'Checkout', 'TIMESTAMP', false, null, null);
         $this->addForeignKey('courseid', 'Courseid', 'INTEGER', 'course', 'id', false, null, null);
+        $this->addColumn('sortable_rank', 'SortableRank', 'INTEGER', false, null, null);
     } // initialize()
 
     /**
@@ -177,6 +190,7 @@ class LabVisitTableMap extends TableMap
     {
         return array(
             'validate' => array('rule1' => array ('column' => 'studentid','validator' => 'NotNull',), 'rule2' => array ('column' => 'studentid','validator' => 'Regex','options' => array ('pattern' => '/^[Ll][0-9]{8}$/','match' => true,'message' => 'Please enter a valid Lnumber',),), 'rule3' => array ('column' => 'studentid','validator' => 'Length','options' => array ('min' => 9,),), ),
+            'sortable' => array('rank_column' => 'sortable_rank', 'use_scope' => 'false', 'scope_column' => '', ),
         );
     } // getBehaviors()
 
@@ -326,12 +340,14 @@ class LabVisitTableMap extends TableMap
             $criteria->addSelectColumn(LabVisitTableMap::COL_CHECKIN);
             $criteria->addSelectColumn(LabVisitTableMap::COL_CHECKOUT);
             $criteria->addSelectColumn(LabVisitTableMap::COL_COURSEID);
+            $criteria->addSelectColumn(LabVisitTableMap::COL_SORTABLE_RANK);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.studentid');
             $criteria->addSelectColumn($alias . '.checkin');
             $criteria->addSelectColumn($alias . '.checkout');
             $criteria->addSelectColumn($alias . '.courseid');
+            $criteria->addSelectColumn($alias . '.sortable_rank');
         }
     }
 

@@ -1,3 +1,23 @@
+/*
+[---------------------------------------------------]
+
+   __       _         ___ _               _    
+  / /  __ _| |__     / __\ |__   ___  ___| | __
+ / /  / _` | '_ \   / /  | '_ \ / _ \/ __| |/ /
+/ /__| (_| | |_) | / /___| | | |  __/ (__|   < 
+\____/\__,_|_.__/  \____/|_| |_|\___|\___|_|\_\
+
+[---------------------------------------------------]                                               
+
+Lab Check
+by Robert Moore 12/19/2018
+
+robert@eugeneprogramming.com
+https://github.com/bobby5892/LabCheckin
+
+License CC BY 
+https://creativecommons.org/licenses/by/4.0/
+*/
 class CurrentLab{
 	constructor(){
 		this.config = config;
@@ -45,7 +65,8 @@ class CurrentLab{
 		}
 	}
 	buildTable(){
-		let output = "<div id='current-lab-labcount'>" + this.getLabVisitorCount() + "</div><div id='current-lab-refreshtimer'>"+ this.getLabRefreshTimer()+  "</div> <table class='currentLab-table'>";
+		let output = "<div id='current-lab-labcount'>" + this.getLabVisitorCount() + "</div><div id='current-lab-refreshtimer'>"+ this.getLabRefreshTimer()+  "</div> <table>";
+		output += "<tr><th>Student</th><th>Course</th><th>Duration</th><th>&nbsp;</th></tr>";
 		console.log(this.liveData.length);
 		for(let i=0; i<this.liveData.length;i++){
 			output += "<tr>" 

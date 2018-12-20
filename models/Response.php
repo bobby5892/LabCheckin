@@ -2,7 +2,7 @@
 class Response{
 	protected $response = "";
 	protected $isSuccess = false;
-	public function __construct($isSuccess,$response){
+	public function __construct($isSuccess=false,$response="No Data"){
 		$this->isSuccess = $isSuccess;
 		$this->response = $response;
 	}
@@ -20,9 +20,11 @@ class Response{
 		$this->isSuccess = $success;
 	}
 	public function ToJSON(){
+		header('Content-Type: application/json');
 		$output = new \stdClass();
 		$output->success = $this->isSuccess;
 		$output->response = $this->response;
-		return json_encode($output);
+		print json_encode($output,JSON_PRETTY_PRINT);
+		exit;
 	}
 }

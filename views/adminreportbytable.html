@@ -1,0 +1,17 @@
+<script>
+	config.dataType = "Table";
+	config.dataSource = "dataTable";
+</script>
+<section>
+	<h2>Lab Usage By Table</h2>
+	<div class="DatePickers">
+		<form method="POST">
+			<span>Start Date:</span><input type="date" name="startDate" id="startDate" min="{min}" max="{max}" value="{startValue}">
+			<span>End Date:</span><input type="date" name="endDate" id="endDate" min="{min}" max="{max}" value="{endValue}">	
+			<button id="update">Update</button>
+		</form>
+	</div>
+	<div id="dataTable"></div>
+</section>
+<script src="{base}/../libs/DataTables/datatables.js"></script>
+<script src="{base}/../js/dataviewer.js"></script>

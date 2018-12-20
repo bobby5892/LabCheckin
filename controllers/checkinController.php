@@ -1,12 +1,35 @@
 <?php
+/*
+[---------------------------------------------------]
+
+   __       _         ___ _               _    
+  / /  __ _| |__     / __\ |__   ___  ___| | __
+ / /  / _` | '_ \   / /  | '_ \ / _ \/ __| |/ /
+/ /__| (_| | |_) | / /___| | | |  __/ (__|   < 
+\____/\__,_|_.__/  \____/|_| |_|\___|\___|_|\_\
+
+[---------------------------------------------------]                                               
+
+Lab Check
+by Robert Moore 12/19/2018
+
+robert@eugeneprogramming.com
+https://github.com/bobby5892/LabCheckin
+
+License CC BY 
+https://creativecommons.org/licenses/by/4.0/
+*/
+
 require("../models/Response.php");
+require('../controllers/templateController.php');
 class CheckinController{
 	function __construct($config){
 		$this->config = $config;
+		$this->template = new TemplateController($config);
 	}
 	public function Index(){	
-		$content = $this->partialView("checkinform.html");
-		return $this->contentView($content);
+		$content = $this->template->partialView("checkinform.html");
+		return $this->template->publicContentView($content);
 	}
 	public function ValidateL(){
 		if(isset($_POST['studentid'])){
@@ -47,7 +70,6 @@ class CheckinController{
 			else{
 				$response = new Response(false, "Student is not checked in");
 			}
-			
 		}
 		else{
 			$response = new Response(false, "No student id sent");
@@ -77,7 +99,7 @@ class CheckinController{
 				$checkin->save();
 				return (new Response(true, "Marked as checked out"))->ToJSON();
 				
-				exit;
+				
 			}
 		}
 		return (new Response(false, "Did not find checkin"))->ToJSON();
@@ -95,8 +117,8 @@ class CheckinController{
 				// If they are checked in and not checked out
 				if($this->checkedIn($labVisit)){
 					$response = new Response(false,"Already checked in");	
-					print $response->ToJSON();
-					exit;
+					$response->ToJSON();
+					
 				}
 				// Not a dupe lets save it
 				$response = new Response($labVisit->validate(),"Saved checkin");
@@ -115,8 +137,8 @@ class CheckinController{
 				$response = new Response("false","Invalid course ID");
 		}
 
-		print $response->ToJSON();
-		exit;
+		$response->ToJSON();
+		
 	}
 	// Public so accessible for testing
 	public function checkedIn($labVisit){
@@ -143,24 +165,5 @@ class CheckinController{
 		->filterByStudentid($studentid)
 		->find();
 		return $labVisits;
-	}
-	private function contentView($newcontent){
-		// Replace absolute path for a relative path
-		$header = file_get_contents("../views/checkinheader.html");
-		$header = str_replace('{base}', $this->config["basePrefix"],$header);
-		$content = $header;
-		// Replace absolute path for a relative path
-		$nav = file_get_contents("../views/checkinnav.html");
-		$nav = str_replace('{base}', $this->config["basePrefix"],$nav);
-		$content .= $nav;
-		// Add the content from method
-		$content .= $newcontent;
-		$content .= file_get_contents("../views/checkinfooter.html");
-		return $content;
-	}
-	private function partialView($filename){
-		$content = file_get_contents("../views/" . $filename);
-		$content = str_replace('{base}', $this->config["basePrefix"],$content);
-		return $content;
 	}
 }

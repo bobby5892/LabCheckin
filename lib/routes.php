@@ -43,21 +43,41 @@ switch ($request) {
           $content =  $loginController->LoginForm();
         }
         break;
-    case $config['basePrefix'] . '/admin/Report/Period' :
+    case $config['basePrefix'] . '/admin/Report/Table' :
         if($loginController->IsLoggedIn()){
-          require __DIR__ . "/../controllers/adminController.php";
-          $controller = new AdminController($config);
-          $content =  $controller->reportsByPeriod();
+          require __DIR__ . "/../controllers/statsController.php";
+          $controller = new StatsController($config);
+          $content =  $controller->reportsByTable();
         }
         else{
          $content =  $loginController->LoginForm();
         }
         break;
-     case $config['basePrefix'] . '/admin/Report/Class' :
+      case $config['basePrefix'] . '/admin/getDateRange' :
         if($loginController->IsLoggedIn()){
-          require __DIR__ . "/../controllers/adminController.php";
-          $controller = new AdminController($config);
-          $content =  $controller->reportsByClass();
+          require __DIR__ . "/../controllers/statsController.php";
+          $controller = new StatsController($config);
+          $content =  $controller->getDateRange();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;        
+     case $config['basePrefix'] . '/admin/getData' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/statsController.php";
+          $controller = new StatsController($config);
+          $content =  $controller->getData();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;         
+     case $config['basePrefix'] . '/admin/Report/Chart' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/statsController.php";
+          $controller = new StatsController($config);
+          $content =  $controller->reportsByChart();
         }
         else{
          $content =  $loginController->LoginForm();

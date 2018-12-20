@@ -1,0 +1,17 @@
+<script>
+	config.dataType = "Chart";
+	config.dataSource = "dataChart";
+</script>
+<section>
+	<h2>Lab Usage Chart</h2>
+	<div class="DatePickers">
+		<form method="POST">
+			<span>Start Date:</span><input type="date" name="startDate" id="startDate" min="{min}" max="{max}" value="{startValue}">
+			<span>End Date:</span><input type="date" name="endDate" id="endDate" min="{min}" max="{max}" value="{endValue}">	
+			<button id="update">Update</button>
+		</form>
+	</div>
+	<div id="dataChart"></div>
+</section>
+<script type="text/javascript" src="{base}/../libs/Chart.js/Chart.min.js"></script>
+<script src="{base}/../js/dataviewer.js"></script>
