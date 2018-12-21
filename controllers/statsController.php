@@ -125,6 +125,100 @@ class StatsController {
 		exit;
 	
 	}
+	public function getDataDetailed(){
+		$dateDomain = $this->dataDateRange();
+		// Get all Courses
+	
+		$response = new Response();
+		// Lets Make sure we have a date
+		if(!isset($_POST['startDate'])){
+			$response->SetSuccess(false);
+			$response->SetResponse("You must specify a start Date");
+			print $response->ToJSON();
+			exit;
+		}
+		else if(!isset($_POST['endDate'])){
+			$response->SetSuccess(false);
+			$response->SetResponse("You must specify an end Date");
+			print $response->ToJSON();
+			exit;	
+		}
+		// Lets validate the date
+		if(
+			(!$this->validateDate($_POST['startDate'])) or 
+				(!$this->validateDate($_POST['endDate']))
+			){
+				$response->SetSuccess(false);
+				$response->SetResponse("Invalid Date Format");
+				print $response->ToJSON();
+				exit;
+		}
+		// Build dates in our format
+		$startDate = DateTime::createFromFormat('m-d-Y', $_POST['startDate']);
+		$endDate = DateTime::createFromFormat('m-d-Y', $_POST['endDate']);
+
+		$dateDomainStartDate = DateTime::createFromFormat('m-d-Y', $dateDomain['startDate']);
+		$dateDomainEndDate = DateTime::createFromFormat('m-d-Y', $dateDomain['endDate']);
+	
+	
+		// Check date for logistical errors
+		if($startDate < $dateDomainStartDate){
+			// Happened before the first record in database - and is outside the domain range
+			$response->SetSuccess(false);
+			$response->SetResponse("Date range is prior to first lab visit");
+			print $response->ToJSON();
+			exit;
+		}
+		else if($endDate > $dateDomainEndDate){
+			// Date has not happened yet
+			$response->SetSuccess(false);
+			$response->SetResponse("Date range is in future");
+			print $response->ToJSON();
+			exit;
+		}
+		else if($startDate > $endDate){
+			$response->SetSuccess(false);
+			$response->SetResponse("Date range ended before it started - swap your start/end date");
+			print $response->ToJSON();
+			exit;
+		}
+		// Ok lets build the aggragated data
+		$content = array( 
+			"startDate" => $startDate->format("m-d-Y"),
+			"endDate" => $endDate->format("m-d-Y"),
+			"Count" => 0,
+			"Data" => array()
+		);
+
+		// Get courses
+		$courses = CourseQuery::create()->find();
+		
+		// Now we are modifying the startDate to account for the current day - so we're going to sub 1 day which is basically midnight because the hours are 0'ed out
+		$startDate = date_sub($startDate,date_interval_create_from_date_string('1 day'));
+		foreach($courses as $course){
+			$Visits = LabVisitQuery::create()
+			->filterByCheckin(array("min" => $startDate->format("Y-m-d H:i:s"), "max" => $endDate->format("Y-m-d H:i:s")))
+			->filterByCourseid($course->getId())
+			->find();	
+			
+			foreach($Visits as $visit){
+
+				$temp = array(
+					"checkin" => $visit->getCheckin()->format("m-d-Y H:m:s"),
+					"checkout" => $visit->getCheckout()->format("m-d-Y H:m:s"),
+					"course" => $course->getName()
+				);
+				// add the data to array
+				array_push($content["Data"],$temp);
+				// increment the number of items
+				$content["Count"]++;
+			}
+			
+		}
+		print json_encode($content,JSON_PRETTY_PRINT);
+		exit;
+	
+	}
 /* Reports */	
 	public function reportsByChart(){	
 		// Get the list of dates

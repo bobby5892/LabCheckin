@@ -62,7 +62,8 @@ switch ($request) {
         else{
          $content =  $loginController->LoginForm();
         }
-        break;        
+        break;      
+          
      case $config['basePrefix'] . '/admin/getData' :
         if($loginController->IsLoggedIn()){
           require __DIR__ . "/../controllers/statsController.php";
@@ -73,6 +74,16 @@ switch ($request) {
          $content =  $loginController->LoginForm();
         }
         break;         
+    case $config['basePrefix'] . '/admin/getDataDetailed' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/statsController.php";
+          $controller = new StatsController($config);
+          $content =  $controller->getDataDetailed();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;                 
      case $config['basePrefix'] . '/admin/Report/Chart' :
         if($loginController->IsLoggedIn()){
           require __DIR__ . "/../controllers/statsController.php";
