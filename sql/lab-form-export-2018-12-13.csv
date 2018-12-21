@@ -1,0 +1,584 @@
+date,subject,time-in,time-out
+11/6/2018,Web Authoring 1 CIS 195,8,10
+11/6/2018,Web Authoring 1 CIS 195,8,10
+11/6/2018,Beginning Programming:  C# CS 133N,9,10
+11/6/2018,Inter Mobile App Dev:Android CS 235AM,9,10
+11/6/2018,Software Tools 1:  Game Devel CIS 125G,9,10
+11/6/2018,Web Development 1 ASP.NET CS 295N,9,15
+11/6/2018,Beginning Programming:  C# CS 133N,9,10
+11/6/2018,Other,9,14
+11/6/2018,Web Authoring 1 CIS 195,9,10
+11/6/2018,Web Authoring 1 CIS 195,9,10
+11/6/2018,Beginning Programming:  C# CS 133N,9,13
+11/6/2018,Systems Analysis CIS 244,10,12
+11/6/2018,Beginning Programming:  C# CS 133N,10,13
+11/6/2018,Data Structures 1 CS 260,10,11
+11/6/2018,Web Authoring 1 CIS 195,10,12
+11/6/2018,Web Authoring 1 CIS 195,10,12
+11/6/2018,Wireless Networking CS 188,11,12
+11/6/2018,Intermediate Prog.: Python CS 233P,11,14
+11/6/2018,Data Structures 1 CS 260,11,12
+11/6/2018,Beginning Programming:  C# CS 133N,11,13
+11/6/2018,Intermediate Prog.: Python CS 233P,11,14
+11/6/2018,Hangout,11,13
+11/6/2018,Hangout,11,13
+11/6/2018,Intro to Computer Networks CS 179,11,14
+11/6/2018,Web Authoring 1 CIS 195,11,14
+11/6/2018,Other,12,14
+11/6/2018,Data Structures 1 CS 260,12,13
+11/6/2018,Adv. Unix/Linux:Server Mgmt. CS 240U,13,14
+11/6/2018,Hangout,13,14
+11/6/2018,Software Tools 1:  Game Devel CIS 125G,15,16
+11/6/2018,Intro to Unix/Linux CIS 140U,15,17
+11/6/2018,Intermediate Prog.: Python CS 233P,16,17
+11/9/2018,Software Tools 1:  Databases CIS 125D,8,9
+11/9/2018,Data Structures 1 CS 260,9,10
+11/9/2018,Other,9,10
+11/9/2018,Data Structures 1 CS 260,9,10
+11/9/2018,Beginning Programming:  C# CS 133N,9,11
+11/9/2018,Hangout,10,12
+11/9/2018,Computer Science 1 CS 161C+,10,11
+11/9/2018,Software Tools 1:  Game Devel CIS 125G,11,12
+11/9/2018,Systems Analysis CIS 244,13,14
+11/9/2018,Inter Mobile App Dev:Android CS 235AM,14,17
+11/1/2018,Computer Science 1 CS 161C+,8,9
+11/1/2018,Web Authoring 1 CIS 195,8,10
+11/1/2018,Beginning Programming:  C# CS 133N,8,10
+11/1/2018,Beginning Programming:  C# CS 133N,9,10
+11/1/2018,Web Authoring 1 CIS 195,9,10
+11/1/2018,Intro to Unix/Linux CIS 140U,9,10
+11/1/2018,Web Authoring 1 CIS 195,9,10
+11/1/2018,Hangout,9,10
+11/1/2018,Web Authoring 1 CIS 195,9,10
+11/1/2018,Systems Analysis CIS 244,9,12
+11/1/2018,Beginning Programming:  C# CS 133N,9,12
+11/1/2018,Systems Analysis CIS 244,11,12
+11/1/2018,Intermediate Prog.: Python CS 233P,11,14
+11/1/2018,Beginning Programming:  C# CS 133N,11,12
+11/1/2018,Other,11,14
+11/1/2018,Intermediate Prog.: Python CS 233P,11,14
+11/1/2018,Intermediate Prog.: Python CS 233P,11,14
+11/1/2018,Data Structures 1 CS 260,11,14
+11/1/2018,Data Structures 1 CS 260,11,14
+11/1/2018,Systems Analysis CIS 244,11,12
+11/1/2018,Software Tools 1:  Game Devel CIS 125G,11,14
+11/1/2018,Intermediate Prog.: Python CS 233P,11,14
+11/1/2018,Web Authoring 1 CIS 195,12,13
+11/1/2018,Web Authoring 1 CIS 195,12,13
+11/1/2018,Data Structures 1 CS 260,12,14
+11/1/2018,Intermediate Prog.: Python CS 233P,13,14
+11/1/2018,Computer Science 1 CS 161C+,13,14
+11/1/2018,Systems Analysis CIS 244,15,16
+11/1/2018,Intermediate Prog.: Python CS 233P,15,17
+11/1/2018,Intermediate Prog.: Python CS 233P,15,17
+10/29/2018,Orientation to Comput. Science CS 160,9,11
+10/29/2018,Beginning Programming:  C# CS 133N,10,11
+10/29/2018,Beginning Programming:  C# CS 133N,10,11
+10/29/2018,Web Development 1 ASP.NET CS 295N,10,12
+10/29/2018,Web Authoring 1 CIS 195,11,14
+10/29/2018,Software Tools 1:  Databases CIS 125D,11,13
+10/29/2018,Hangout,11,12
+10/29/2018,Beginning Programming:  C# CS 133N,11,12
+10/29/2018,Web Development 1 ASP.NET CS 295N,11,14
+10/29/2018,Web Development 1 ASP.NET CS 295N,11,14
+10/29/2018,Computer Science 1 CS 161C+,11,16
+10/29/2018,Systems Analysis CIS 244,12,14
+10/29/2018,Inter Mobile App Dev:Android CS 235AM,13,14
+10/29/2018,Beginning Programming:  C# CS 133N,13,14
+10/29/2018,Computer Science 1 CS 161C+,13,16
+10/29/2018,Data Structures 1 CS 260,14,16
+10/29/2018,Beginning Programming:  C# CS 133N,14,16
+10/29/2018,Web Development 1 ASP.NET CS 295N,14,17
+10/29/2018,Beginning Programming:  C# CS 133N,16,17
+11/13/2018,Beginning Programming:  C# CS 133N,8,16
+11/13/2018,Web Authoring 1 CIS 195,8,10
+11/13/2018,Web Authoring 1 CIS 195,9,10
+11/13/2018,Intermediate Prog.: Python CS 233P,9,12
+11/13/2018,Web Authoring 1 CIS 195,9,10
+11/13/2018,Other,9,10
+11/13/2018,Web Authoring 1 CIS 195,9,10
+11/13/2018,Beginning Programming:  C# CS 133N,9,16
+11/13/2018,Beginning Programming:  C# CS 133N,10,16
+11/13/2018,Software Tools 1:  Game Devel CIS 125G,10,11
+11/13/2018,Orientation to Comput. Science CS 160,10,11
+11/13/2018,Inter Mobile App Dev:Android CS 235AM,11,16
+11/13/2018,Computer Science 1 CS 161C+,11,12
+11/13/2018,Other,11,12
+11/13/2018,Intermediate Prog.: Python CS 233P,11,12
+11/13/2018,Beginning Programming:  C# CS 133N,11,16
+11/13/2018,Intermediate Prog.: Python CS 233P,11,14
+11/13/2018,Systems Analysis CIS 244,11,14
+11/13/2018,Systems Analysis CIS 244,11,14
+11/13/2018,Systems Analysis CIS 244,11,14
+11/13/2018,Beginning Programming:  C# CS 133N,12,16
+11/13/2018,Intermediate Prog.: Python CS 233P,12,14
+11/13/2018,Web Authoring 1 CIS 195,12,17
+11/13/2018,Systems Analysis CIS 244,12,14
+11/13/2018,Data Structures 1 CS 260,12,16
+11/13/2018,Hangout,13,14
+11/13/2018,Data Structures 1 CS 260,13,16
+11/13/2018,Beginning Programming:  C# CS 133N,15,16
+11/13/2018,Web Authoring 1 CIS 195,15,17
+11/13/2018,Wireless Networking CS 188,16,17
+11/14/2018,Web Development 1 ASP.NET CS 295N,8,14
+11/14/2018,Beginning Programming:  C# CS 133N,8,10
+11/14/2018,Beginning Programming:  C# CS 133N,8,10
+11/14/2018,Beginning Programming:  C# CS 133N,8,10
+11/14/2018,Beginning Programming:  C# CS 133N,8,10
+11/14/2018,Data Structures 1 CS 260,9,10
+11/14/2018,Beginning Programming:  C# CS 133N,9,10
+11/14/2018,Beginning Programming:  C# CS 133N,9,10
+11/14/2018,Beginning Programming:  C# CS 133N,9,10
+11/14/2018,Beginning Programming:  C# CS 133N,9,10
+11/14/2018,Intermediate Prog.: Python CS 233P,9,10
+11/14/2018,Web Authoring 1 CIS 195,9,14
+11/14/2018,Beginning Programming:  C# CS 133N,9,10
+11/14/2018,Other,9,10
+11/14/2018,Beginning Programming:  C# CS 133N,10,12
+11/14/2018,Intro to Computer Networks CS 179,11,12
+11/14/2018,Data Structures 1 CS 260,11,13
+11/14/2018,Data Structures 1 CS 260,11,13
+11/14/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/14/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/14/2018,Web Authoring 1 CIS 195,11,14
+11/14/2018,Other,11,12
+11/14/2018,Inter Mobile App Dev:Android CS 235AM,11,12
+11/14/2018,Web Authoring 1 CIS 195,13,14
+11/14/2018,Web Authoring 1 CIS 195,13,14
+11/14/2018,Beginning Programming:  C# CS 133N,13,15
+11/14/2018,Computer Science 1 CS 161C+,13,14
+11/14/2018,Computer Science 1 CS 161C+,13,14
+11/14/2018,Hangout,13,14
+11/14/2018,Beginning Programming:  C# CS 133N,14,15
+11/14/2018,Beginning Programming:  C# CS 133N,14,15
+11/14/2018,Beginning Programming:  C# CS 133N,14,15
+11/14/2018,Web Development 1 ASP.NET CS 295N,14,15
+11/14/2018,Computer Science 1 CS 161C+,14,15
+11/14/2018,Computer Science 1 CS 161C+,14,15
+11/14/2018,Beginning Programming:  C# CS 133N,8,9
+11/14/2018,Beginning Programming:  C# CS 133N,8,9
+11/14/2018,Beginning Programming:  C# CS 133N,8,9
+11/14/2018,Beginning Programming:  C# CS 133N,8,9
+11/14/2018,Beginning Programming:  C# CS 133N,8,9
+11/14/2018,Beginning Programming:  C# CS 133N,8,9
+11/14/2018,Beginning Programming:  C# CS 133N,8,9
+11/30/2018,Beginning Programming:  C# CS 133N,8,16
+11/30/2018,Wireless Networking CS 188,10,11
+11/30/2018,Intermediate Prog.: Python CS 233P,10,12
+11/30/2018,Hangout,11,12
+11/30/2018,Hangout,11,12
+11/30/2018,Computer Science 1 CS 161C+,11,14
+11/30/2018,Computer Science 1 CS 161C+,11,14
+11/30/2018,Hangout,11,12
+11/30/2018,Hangout,11,12
+11/30/2018,Hangout,11,12
+11/30/2018,Network Security Fundamentals CS 284,11,12
+11/30/2018,Beginning Programming:  C# CS 133N,12,16
+11/30/2018,Web Authoring 1 CIS 195,12,17
+11/30/2018,Data Structures 1 CS 260,13,15
+11/30/2018,Co-op Ed: CIT Seminar CS 206,13,15
+11/30/2018,Co-op Ed: CIT Seminar CS 206,13,15
+11/30/2018,Beginning Programming:  C# CS 133N,14,16
+11/30/2018,Beginning Programming:  C# CS 133N,14,16
+11/30/2018,Intermediate Prog.: Python CS 233P,14,15
+11/15/2018,Web Authoring 1 CIS 195,8,10
+11/15/2018,Web Authoring 1 CIS 195,8,10
+11/15/2018,Web Authoring 1 CIS 195,8,10
+11/15/2018,Web Authoring 1 CIS 195,8,10
+11/15/2018,Computer Science 1 CS 161C+,9,16
+11/15/2018,Software Tools 1:  Game Devel CIS 125G,9,10
+11/15/2018,Web Authoring 1 CIS 195,9,10
+11/15/2018,Network Security Fundamentals CS 284,9,10
+11/15/2018,Hangout,9,10
+11/15/2018,Intermediate Prog.: Python CS 233P,9,13
+11/15/2018,Other,9,14
+11/15/2018,Computer Science 1 CS 161C+,10,16
+11/15/2018,Intermediate Prog.: Python CS 233P,10,13
+11/15/2018,Intermediate Prog.: Python CS 233P,11,13
+11/15/2018,Data Structures 1 CS 260,11,12
+11/15/2018,Systems Analysis CIS 244,11,12
+11/15/2018,Data Structures 1 CS 260,11,14
+11/15/2018,Intermediate Prog.: Python CS 233P,11,13
+11/15/2018,Other,11,14
+11/15/2018,Intermediate Prog.: Python CS 233P,11,13
+11/15/2018,Computer Science 1 CS 161C+,11,16
+11/15/2018,Intermediate Prog.: Python CS 233P,12,14
+11/15/2018,Data Structures 1 CS 260,12,14
+11/15/2018,Data Structures 1 CS 260,12,14
+11/15/2018,Intermediate Prog.: Python CS 233P,13,14
+11/15/2018,Computer End-User Support CIS 225,13,14
+11/15/2018,Software Tools 1:  Databases CIS 125D,13,15
+11/15/2018,Computer Science 1 CS 161C+,14,16
+11/15/2018,Computer Science 1 CS 161C+,14,16
+11/15/2018,Web Authoring 1 CIS 195,14,17
+10/30/2018,Intro to Unix/Linux CIS 140U,8,9
+10/30/2018,Web Development 1 ASP.NET CS 295N,8,10
+10/30/2018,Hangout,9,12
+10/30/2018,Web Authoring 1 CIS 195,9,11
+10/30/2018,Web Authoring 1 CIS 195,9,11
+10/30/2018,Beginning Programming:  C# CS 133N,9,12
+10/30/2018,Beginning Programming:  C# CS 133N,10,12
+10/30/2018,Intermediate Prog.: Python CS 233P,10,14
+10/30/2018,Systems Analysis CIS 244,10,12
+10/30/2018,Systems Analysis CIS 244,10,12
+10/30/2018,Web Development 1 ASP.NET CS 295N,10,15
+10/30/2018,Systems Analysis CIS 244,10,12
+10/30/2018,Systems Analysis CIS 244,10,12
+10/30/2018,Hangout,10,12
+10/30/2018,Hangout,10,12
+10/30/2018,Data Structures 1 CS 260,11,14
+10/30/2018,Beginning Programming:  C# CS 133N,11,14
+10/30/2018,Data Structures 1 CS 260,11,14
+10/30/2018,Intermediate Prog.: Python CS 233P,12,14
+10/30/2018,Web Authoring 1 CIS 195,12,17
+10/30/2018,Web Authoring 1 CIS 195,12,17
+10/30/2018,Network Security Fundamentals CS 284,12,14
+10/30/2018,Intermediate Prog.: Python CS 233P,12,14
+10/30/2018,Advanced Programming: C# CS 234N,12,13
+10/30/2018,Intermediate Prog.: Python CS 233P,12,14
+10/30/2018,Web Authoring 1 CIS 195,12,17
+10/30/2018,Beginning Programming:  C# CS 133N,13,14
+11/2/2018,Network Security Fundamentals CS 284,8,9
+11/2/2018,Web Development 1 ASP.NET CS 295N,9,10
+11/2/2018,Data Structures 1 CS 260,9,11
+11/2/2018,Web Authoring 1 CIS 195,9,16
+11/2/2018,Co-op Ed: CIT Seminar CS 206,10,11
+11/2/2018,Computer Science 1 CS 161C+,10,11
+11/2/2018,Data Structures 1 CS 260,11,15
+11/2/2018,Data Structures 1 CS 260,11,15
+11/2/2018,Software Tools 1:  Game Devel CIS 125G,12,13
+11/2/2018,Intro to Unix/Linux CIS 140U,12,13
+11/2/2018,Intermediate Prog.: Python CS 233P,13,14
+11/2/2018,Co-op Ed: CIT Seminar CS 206,14,15
+11/2/2018,Data Structures 1 CS 260,14,17
+11/2/2018,Data Structures 1 CS 260,15,17
+11/2/2018,Web Authoring 1 CIS 195,15,16
+11/27/2018,Web Authoring 1 CIS 195,8,10
+11/27/2018,Other,8,11
+11/27/2018,Intermediate Prog.: Python CS 233P,8,9
+11/27/2018,Web Authoring 1 CIS 195,8,10
+11/27/2018,Web Development 1 ASP.NET CS 295N,9,15
+11/27/2018,Web Authoring 1 CIS 195,9,10
+11/27/2018,Other,9,11
+11/27/2018,Web Authoring 1 CIS 195,9,10
+11/27/2018,Other,9,11
+11/27/2018,Systems Analysis CIS 244,10,12
+11/27/2018,Computer Science 1 CS 161C+,10,16
+11/27/2018,Intermediate Prog.: Python CS 233P,10,14
+11/27/2018,Intermediate Prog.: Python CS 233P,10,14
+11/27/2018,Beginning Programming:  C# CS 133N,11,14
+11/27/2018,Web Authoring 1 CIS 195,11,12
+11/27/2018,Other,11,12
+11/27/2018,Beginning Programming:  C# CS 133N,11,14
+11/27/2018,Intermediate Prog.: Python CS 233P,11,14
+11/27/2018,Web Development 1 ASP.NET CS 295N,12,15
+11/27/2018,Network Security Fundamentals CS 284,12,14
+11/27/2018,Intermediate Prog.: Python CS 233P,13,14
+11/27/2018,Intermediate Prog.: Python CS 233P,13,14
+11/27/2018,Computer Science 1 CS 161C+,14,16
+11/27/2018,Other,14,15
+11/27/2018,Orientation to Comput. Science CS 160,14,16
+11/27/2018,Web Authoring 1 CIS 195,15,17
+11/28/2018,Wireless Networking CS 188,8,9
+11/28/2018,Beginning Programming:  C# CS 133N,9,13
+11/28/2018,Beginning Programming:  C# CS 133N,9,13
+11/28/2018,Advanced Programming: C# CS 234N,9,11
+11/28/2018,Beginning Programming:  C# CS 133N,11,13
+11/28/2018,Computer Science 1 CS 161C+,11,12
+11/28/2018,Web Development 1 ASP.NET CS 295N,11,12
+11/28/2018,Intermediate Prog.: Python CS 233P,11,16
+11/28/2018,Beginning Programming:  C# CS 133N,11,13
+11/28/2018,Beginning Programming:  C# CS 133N,11,13
+11/28/2018,Web Authoring 1 CIS 195,11,15
+11/28/2018,Web Authoring 1 CIS 195,11,15
+11/28/2018,Web Authoring 1 CIS 195,12,15
+11/28/2018,Computer Science 1 CS 161C+,13,14
+11/28/2018,Intro to Unix/Linux CIS 140U,13,15
+11/28/2018,Web Authoring 1 CIS 195,13,15
+11/28/2018,Beginning Programming:  C# CS 133N,13,17
+11/28/2018,Hangout,13,14
+11/28/2018,Beginning Programming:  C# CS 133N,14,17
+11/28/2018,Beginning Programming:  C# CS 133N,16,17
+10/31/2018,Computer Science 1 CS 161C+,8,12
+10/31/2018,Beginning Programming:  C# CS 133N,9,12
+10/31/2018,Intermediate Prog.: Python CS 233P,9,14
+10/31/2018,Data Structures 1 CS 260,9,11
+10/31/2018,Other,9,11
+10/31/2018,Data Structures 1 CS 260,9,11
+10/31/2018,Intro to Unix/Linux CIS 140U,9,14
+10/31/2018,Hangout,9,10
+10/31/2018,Other,9,11
+10/31/2018,Other,10,11
+10/31/2018,Web Development 1 ASP.NET CS 295N,10,14
+10/31/2018,Orientation to Comput. Science CS 160,10,11
+10/31/2018,Web Authoring 1 CIS 195,10,14
+10/31/2018,Other,11,12
+10/31/2018,Web Authoring 1 CIS 195,11,14
+10/31/2018,Computer Science 1 CS 161C+,11,12
+10/31/2018,Data Structures 1 CS 260,11,12
+10/31/2018,Beginning Programming:  C# CS 133N,11,17
+10/31/2018,Hangout,11,12
+10/31/2018,Web Development 1 ASP.NET CS 295N,11,14
+10/31/2018,Web Development 1 ASP.NET CS 295N,11,14
+10/31/2018,Web Authoring 1 CIS 195,11,14
+10/31/2018,Computer Science 1 CS 161C+,11,12
+10/31/2018,Intro to Unix/Linux CIS 140U,11,14
+10/31/2018,Intermediate Prog.: Python CS 233P,11,14
+10/31/2018,Orientation to Comput. Science CS 160,13,14
+10/31/2018,Computer Science 1 CS 161C+,13,15
+10/31/2018,Beginning Programming:  C# CS 133N,16,17
+10/31/2018,Orientation to Comput. Science CS 160,16,17
+11/26/2018,Computer Science 1 CS 161C+,8,14
+11/26/2018,Beginning Programming:  C# CS 133N,9,12
+11/26/2018,Hangout,9,11
+11/26/2018,Data Structures 1 CS 260,9,12
+11/26/2018,Hangout,9,11
+11/26/2018,Wireless Networking CS 188,9,10
+11/26/2018,Advanced Programming: C# CS 234N,10,11
+11/26/2018,Beginning Programming:  C# CS 133N,10,12
+11/26/2018,Intro to Computer Networks CS 179,11,12
+11/26/2018,Beginning Programming:  C# CS 133N,11,12
+11/26/2018,Intro to Unix/Linux CIS 140U,11,12
+11/26/2018,Beginning Programming:  C# CS 133N,11,12
+11/26/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/26/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/26/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/26/2018,Computer Science 1 CS 161C+,11,14
+11/26/2018,Computer Science 1 CS 161C+,11,14
+11/26/2018,Beginning Programming:  C# CS 133N,11,13
+11/26/2018,Web Authoring 1 CIS 195,12,13
+11/26/2018,Systems Analysis CIS 244,13,14
+11/26/2018,Beginning Programming:  C# CS 133N,13,14
+11/26/2018,Inter Mobile App Dev:Android CS 235AM,13,14
+11/26/2018,Beginning Programming:  C# CS 133N,13,14
+11/26/2018,Co-op Ed: CIT Seminar CS 206,13,15
+11/26/2018,Intermediate Prog.: Python CS 233P,13,15
+11/26/2018,Beginning Programming:  C# CS 133N,13,17
+11/26/2018,Computer Science 1 CS 161C+,14,15
+11/26/2018,Beginning Programming:  C# CS 133N,14,17
+12/3/2018,Intermediate Prog.: Python CS 233P,8,14
+12/3/2018,Wireless Networking CS 188,8,17
+12/3/2018,Web Development 1 ASP.NET CS 295N,9,14
+12/3/2018,Web Development 1 ASP.NET CS 295N,11,14
+12/3/2018,Web Authoring 1 CIS 195,11,14
+12/3/2018,Data Structures 1 CS 260,12,13
+12/3/2018,Web Authoring 1 CIS 195,12,14
+12/3/2018,Hangout,12,14
+12/3/2018,Web Authoring 1 CIS 195,12,14
+12/3/2018,Data Structures 1 CS 260,12,13
+12/3/2018,Data Structures 1 CS 260,12,13
+12/3/2018,Data Structures 1 CS 260,12,15
+12/3/2018,Inter Mobile App Dev:Android CS 235AM,13,14
+12/3/2018,Data Structures 1 CS 260,13,15
+12/3/2018,Inter Mobile App Dev:Android CS 235AM,13,14
+12/3/2018,Beginning Programming:  C# CS 133N,14,15
+12/3/2018,Web Authoring 1 CIS 195,16,17
+11/29/2018,Intermediate Prog.: Python CS 233P,8,14
+11/29/2018,Computer Science 1 CS 161C+,8,13
+11/29/2018,Web Authoring 1 CIS 195,8,17
+11/29/2018,Web Authoring 1 CIS 195,8,17
+11/29/2018,Other,8,9
+11/29/2018,Web Authoring 1 CIS 195,8,17
+11/29/2018,Web Development 1 ASP.NET CS 295N,9,17
+11/29/2018,Beginning Programming:  C# CS 133N,9,10
+11/29/2018,Beginning Programming:  C# CS 133N,9,10
+11/29/2018,Beginning Programming:  C# CS 133N,9,10
+11/29/2018,Intermediate Prog.: Python CS 233P,9,14
+11/29/2018,Computer Science 1 CS 161C+,9,13
+11/29/2018,Beginning Programming:  C# CS 133N,10,12
+11/29/2018,Web Development 1 ASP.NET CS 295N,10,17
+11/29/2018,Intro to Unix/Linux CIS 140U,10,17
+11/29/2018,Beginning Programming:  C# CS 133N,10,12
+11/29/2018,Data Structures 1 CS 260,11,13
+11/29/2018,Intermediate Prog.: Python CS 233P,11,14
+11/29/2018,Other,11,12
+11/29/2018,Beginning Programming:  C# CS 133N,11,12
+11/29/2018,Computer Science 1 CS 161C+,11,13
+11/29/2018,Data Structures 1 CS 260,12,13
+11/29/2018,Data Structures 1 CS 260,12,14
+11/29/2018,Systems Analysis CIS 244,13,14
+11/29/2018,Intermediate Prog.: Python CS 233P,13,14
+11/29/2018,Intermediate Prog.: Python CS 233P,13,14
+11/29/2018,Data Structures 1 CS 260,13,14
+11/29/2018,Adv. Unix/Linux:Server Mgmt. CS 240U,13,15
+11/29/2018,Computer Science 1 CS 161C+,13,17
+11/29/2018,Computer Science 1 CS 161C+,13,17
+11/29/2018,Intro to Unix/Linux CIS 140U,14,17
+11/29/2018,Web Authoring 1 CIS 195,14,17
+11/29/2018,Hangout,14,16
+11/29/2018,Beginning Programming:  C# CS 133N,15,16
+11/29/2018,Beginning Programming:  C# CS 133N,15,16
+12/4/2018,Other,9,10
+12/4/2018,Beginning Programming:  C# CS 133N,9,10
+12/4/2018,Systems Analysis CIS 244,10,12
+12/4/2018,Systems Analysis CIS 244,10,12
+12/4/2018,Web Development 1 ASP.NET CS 295N,10,17
+12/4/2018,Beginning Programming:  C# CS 133N,10,11
+12/4/2018,Software Tools 1:  Game Devel CIS 125G,11,12
+12/4/2018,Hangout,11,13
+12/4/2018,Computer Science 1 CS 161C+,12,13
+12/4/2018,Systems Analysis CIS 244,12,14
+12/4/2018,Web Authoring 1 CIS 195,13,14
+12/4/2018,Computer Science 1 CS 161C+,13,14
+12/4/2018,Data Structures 1 CS 260,13,14
+12/4/2018,Beginning Programming:  C# CS 133N,13,14
+12/4/2018,Web Authoring 1 CIS 195,13,14
+11/19/2018,Hangout,8,9
+11/19/2018,Beginning Programming:  C# CS 133N,8,12
+11/19/2018,Hangout,9,10
+11/19/2018,Hangout,9,10
+11/19/2018,Hangout,9,10
+11/19/2018,Beginning Programming:  C# CS 133N,9,12
+11/19/2018,Other,10,11
+11/19/2018,Computer Science 1 CS 161C+,10,11
+11/19/2018,Beginning Programming:  C# CS 133N,11,12
+11/19/2018,Beginning Programming:  C# CS 133N,11,12
+11/19/2018,Inter Mobile App Dev:Android CS 235AM,11,14
+11/19/2018,Network Security Fundamentals CS 284,11,13
+11/19/2018,Web Authoring 1 CIS 195,11,12
+11/19/2018,Beginning Programming:  C# CS 133N,11,12
+11/19/2018,Web Authoring 1 CIS 195,11,12
+11/19/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/19/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/19/2018,Intermediate Prog.: Python CS 233P,12,13
+11/19/2018,Intermediate Prog.: Python CS 233P,12,13
+11/19/2018,Intro to Unix/Linux CIS 140U,13,14
+11/19/2018,Computer Science 1 CS 161C+,13,14
+11/19/2018,Web Development 1 ASP.NET CS 295N,14,15
+11/19/2018,Computer Science 1 CS 161C+,14,15
+11/16/2018,Systems Analysis CIS 244,9,10
+11/16/2018,Computer Science 1 CS 161C+,9,15
+11/16/2018,Software Tools 1:  Databases CIS 125D,9,10
+11/16/2018,Hangout,10,13
+11/16/2018,Computer Science 1 CS 161C+,11,15
+11/16/2018,Other,11,12
+11/16/2018,Hangout,11,13
+11/16/2018,Web Authoring 1 CIS 195,12,15
+11/16/2018,Hangout,12,13
+11/16/2018,Computer Science 1 CS 161C+,13,15
+11/16/2018,Computer Science 1 CS 161C+,13,15
+11/16/2018,Web Authoring 1 CIS 195,13,15
+11/16/2018,Data Structures 1 CS 260,15,16
+11/21/2018,Hangout,8,9
+11/21/2018,Web Authoring 1 CIS 195,8,9
+11/21/2018,Wireless Networking CS 188,8,14
+11/21/2018,Beginning Programming:  C# CS 133N,9,12
+11/21/2018,Wireless Networking CS 188,9,14
+11/21/2018,Intro to Unix/Linux CIS 140U,9,17
+11/21/2018,Software Tools 1:  Databases CIS 125D,9,10
+11/21/2018,Web Development 1 ASP.NET CS 295N,9,10
+11/21/2018,Intro to Unix/Linux CIS 140U,9,17
+11/21/2018,Other,10,12
+11/21/2018,Hangout,11,12
+11/21/2018,Wireless Networking CS 188,11,14
+11/21/2018,Beginning Programming:  C# CS 133N,11,12
+11/21/2018,Intro to Unix/Linux CIS 140U,13,17
+11/21/2018,Beginning Programming:  C# CS 133N,13,14
+11/21/2018,Computer Science 1 CS 161C+,13,14
+11/21/2018,Hangout,13,14
+11/21/2018,Computer Science 1 CS 161C+,15,16
+11/7/2018,Web Authoring 1 CIS 195,8,9
+11/7/2018,Inter Mobile App Dev:Android CS 235AM,8,13
+11/7/2018,Computer Science 1 CS 161C+,8,15
+11/7/2018,Data Structures 1 CS 260,9,10
+11/7/2018,Hangout,9,10
+11/7/2018,Intro to Unix/Linux CIS 140U,10,16
+11/7/2018,Other,10,12
+11/7/2018,Web Authoring 1 CIS 195,10,14
+11/7/2018,Computer Science 1 CS 161C+,11,15
+11/7/2018,Web Authoring 1 CIS 195,11,14
+11/7/2018,Web Authoring 1 CIS 195,11,14
+11/7/2018,Network Security Fundamentals CS 284,11,14
+11/7/2018,Other,11,14
+11/7/2018,Intro to Unix/Linux CIS 140U,11,16
+11/7/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/7/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/7/2018,Other,11,14
+11/7/2018,Web Authoring 1 CIS 195,12,14
+11/7/2018,Web Authoring 1 CIS 195,12,14
+11/7/2018,Web Authoring 1 CIS 195,12,14
+11/7/2018,Computer Science 1 CS 161C+,13,15
+11/7/2018,Hangout,13,15
+11/7/2018,Intermediate Prog.: Python CS 233P,13,15
+11/7/2018,Co-op Ed: CIT Seminar CS 206,13,15
+11/7/2018,Intermediate Prog.: Python CS 233P,14,15
+11/8/2018,Web Authoring 1 CIS 195,8,10
+11/8/2018,Web Authoring 1 CIS 195,8,10
+11/8/2018,Beginning Programming:  C# CS 133N,9,10
+11/8/2018,Oper Systems:  Windows Clients CIS 140W,9,10
+11/8/2018,Web Authoring 1 CIS 195,9,10
+11/8/2018,Beginning Programming:  C# CS 133N,9,10
+11/8/2018,Web Authoring 1 CIS 195,9,10
+11/8/2018,Beginning Programming:  C# CS 133N,9,10
+11/8/2018,Software Tools 1:  Game Devel CIS 125G,9,10
+11/8/2018,Other,10,11
+11/8/2018,Beginning Programming:  C# CS 133N,10,15
+11/8/2018,Systems Analysis CIS 244,11,13
+11/8/2018,Data Structures 1 CS 260,11,14
+11/8/2018,Systems Analysis CIS 244,11,13
+11/8/2018,Systems Analysis CIS 244,11,13
+11/8/2018,Systems Analysis CIS 244,11,13
+11/8/2018,Beginning Programming:  C# CS 133N,11,15
+11/8/2018,Intermediate Prog.: Python CS 233P,11,14
+11/8/2018,Computer Science 1 CS 161C+,11,16
+11/8/2018,Systems Analysis CIS 244,11,13
+11/8/2018,Data Structures 1 CS 260,11,14
+11/8/2018,Web Authoring 1 CIS 195,12,17
+11/8/2018,Intermediate Prog.: Python CS 233P,12,14
+11/8/2018,Data Structures 1 CS 260,12,14
+11/8/2018,Data Structures 1 CS 260,13,14
+11/8/2018,Intermediate Prog.: Python CS 233P,13,14
+11/8/2018,Data Structures 1 CS 260,13,14
+11/8/2018,Intermediate Prog.: Python CS 233P,13,14
+11/8/2018,Computer Science 1 CS 161C+,13,16
+11/8/2018,Web Authoring 1 CIS 195,14,17
+11/8/2018,Computer Science 1 CS 161C+,14,16
+11/20/2018,Intermediate Prog.: Python CS 233P,8,9
+11/20/2018,Web Authoring 1 CIS 195,8,10
+11/20/2018,Web Authoring 1 CIS 195,8,10
+11/20/2018,Hangout,9,10
+11/20/2018,Web Authoring 1 CIS 195,9,10
+11/20/2018,Beginning Programming:  C# CS 133N,9,11
+11/20/2018,Inter Mobile App Dev:Android CS 235AM,9,15
+11/20/2018,Hangout,9,10
+11/20/2018,Web Authoring 1 CIS 195,9,10
+11/20/2018,Web Authoring 1 CIS 195,9,10
+11/20/2018,Software Tools 1:  Game Devel CIS 125G,9,10
+11/20/2018,Web Authoring 1 CIS 195,9,10
+11/20/2018,Computer Science 1 CS 161C+,10,11
+11/20/2018,Hangout,10,11
+11/20/2018,Computer Science 1 CS 161C+,10,11
+11/20/2018,Beginning Programming:  C# CS 133N,10,13
+11/20/2018,Hangout,10,11
+11/20/2018,Hangout,11,12
+11/20/2018,Hangout,11,12
+11/20/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/20/2018,Systems Analysis CIS 244,11,12
+11/20/2018,Intermediate Prog.: Python CS 233P,11,14
+11/20/2018,Other,12,14
+11/20/2018,Intermediate Prog.: Python CS 233P,12,14
+11/20/2018,Intermediate Prog.: Python CS 233P,12,14
+11/20/2018,Intermediate Prog.: Python CS 233P,12,14
+11/20/2018,Oper Systems:  Windows Clients CIS 140W,13,14
+11/20/2018,Web Authoring 1 CIS 195,13,14
+11/20/2018,Intro to Unix/Linux CIS 140U,13,14
+11/20/2018,Hangout,13,14
+11/20/2018,Data Structures 1 CS 260,13,14
+11/20/2018,Computer Science 1 CS 161C+,14,15
+11/20/2018,Intro to Unix/Linux CIS 140U,15,16
+11/5/2018,Computer Science 1 CS 161C+,8,12
+11/5/2018,Web Development 1 ASP.NET CS 295N,9,14
+11/5/2018,Hangout,9,10
+11/5/2018,Hangout,9,10
+11/5/2018,Web Authoring 1 CIS 195,10,15
+11/5/2018,Other,10,11
+11/5/2018,Hangout,11,12
+11/5/2018,Computer Science 1 CS 161C+,11,12
+11/5/2018,Web Development 1 ASP.NET CS 295N,11,14
+11/5/2018,Intermediate Prog.: Python CS 233P,11,13
+11/5/2018,Software Tools 1:  Databases CIS 125D,12,13
+11/5/2018,Network Security Fundamentals CS 284,12,14
+11/5/2018,Intermediate Prog.: Python CS 233P,12,13
+11/5/2018,Web Authoring 1 CIS 195,13,15
+11/5/2018,Computer Science 1 CS 161C+,13,14
+11/5/2018,Inter Mobile App Dev:Android CS 235AM,15,17

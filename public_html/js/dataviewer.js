@@ -63,6 +63,9 @@ class DataViewer{
 		if(this.config.dataType == "Table"){
 			document.getElementById(this.config.dataSource).innerHTML = this.buildTable();
 		}
+		else if(this.config.dataType == "Chart"){
+			this.buildChart();
+		}
 	}
 	buildTable(){
 		let output = "<table>";
@@ -76,6 +79,47 @@ class DataViewer{
 		
 		output + "</table>";
 		return output;	
+	}
+	buildChart(){
+		// put the canvas on the page
+		let output = "<canvas id='barChart'></canvas>";
+		document.getElementById(this.config.dataSource).innerHTML += output;
+
+		let chartDataSet = [];
+		let chartLabels = []
+		// now build chart data for chart.js
+		for(let i=0; i<this.Data.length;i++){
+			// this is [x,y]
+			chartDataSet.push(this.Data[i].count);
+			chartLabels.push(this.Data[i].course);
+		}
+
+		// Build data to spec https://www.chartjs.org/docs/latest/axes/cartesian/category.html
+
+		let chartData = {
+			labels: chartLabels,
+			datasets: [{chartDataSet}]
+		};
+
+		console.log("chartData" + JSON.stringify(chartData));
+		let ctx = document.getElementById('barChart').getContext("2d");
+		let stackedBar = new Chart(ctx, {
+		    type: 'horizontalBar',
+		    data: chartData,
+		    options: {
+		        legend: {
+		            display: true,
+		            labels: {
+		                fontColor: 'rgb(255, 99, 132)'
+		            }
+		        },
+		        title: {
+	         	   display: true,
+	            	text: 'LAB USAGE'
+        		}
+		    },
+		   
+		});
 	}
 }
 let dataviewer;

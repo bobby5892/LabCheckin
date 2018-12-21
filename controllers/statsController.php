@@ -106,7 +106,6 @@ class StatsController {
 			$countVisits = LabVisitQuery::create()
 			->filterByCheckin(array("min" => $startDate->format("Y-m-d H:i:s"), "max" => $endDate->format("Y-m-d H:i:s")))
 			->filterByCourseid($course->getId())
-			->groupByCourseid($course->getId())
 			->count();	
 
 			// Lets not include courses that have 0 visits
