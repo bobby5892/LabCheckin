@@ -41,14 +41,14 @@ class StatsController {
 		if(!isset($_POST['startDate'])){
 			$response->SetSuccess(false);
 			$response->SetResponse("You must specify a start Date");
-			print $response->ToJSON();
-			exit;
+			return $response->ToJSON();
+			
 		}
 		else if(!isset($_POST['endDate'])){
 			$response->SetSuccess(false);
 			$response->SetResponse("You must specify an end Date");
-			print $response->ToJSON();
-			exit;	
+			return $response->ToJSON();
+				
 		}
 		// Lets validate the date
 		if(
@@ -57,8 +57,8 @@ class StatsController {
 			){
 				$response->SetSuccess(false);
 				$response->SetResponse("Invalid Date Format");
-				print $response->ToJSON();
-				exit;
+				return $response->ToJSON();
+				
 		}
 		// Build dates in our format
 		$startDate = DateTime::createFromFormat('m-d-Y', $_POST['startDate']);
@@ -73,21 +73,21 @@ class StatsController {
 			// Happened before the first record in database - and is outside the domain range
 			$response->SetSuccess(false);
 			$response->SetResponse("Date range is prior to first lab visit");
-			print $response->ToJSON();
-			exit;
+			return $response->ToJSON();
+		
 		}
 		else if($endDate > $dateDomainEndDate){
 			// Date has not happened yet
 			$response->SetSuccess(false);
 			$response->SetResponse("Date range is in future");
-			print $response->ToJSON();
-			exit;
+			return $response->ToJSON();
+
 		}
 		else if($startDate > $endDate){
 			$response->SetSuccess(false);
 			$response->SetResponse("Date range ended before it started - swap your start/end date");
-			print $response->ToJSON();
-			exit;
+			return $response->ToJSON();
+			
 		}
 		// Ok lets build the aggragated data
 		$content = array( 
@@ -121,9 +121,7 @@ class StatsController {
 			}
 			
 		}
-		print json_encode($content,JSON_PRETTY_PRINT);
-		exit;
-	
+		return json_encode($content,JSON_PRETTY_PRINT);
 	}
 	public function getDataDetailed(){
 		$dateDomain = $this->dataDateRange();

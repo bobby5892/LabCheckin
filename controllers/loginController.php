@@ -117,7 +117,7 @@ class LoginController{
 		$_SESSION['USER'] = "";
 		print "<script>self.location = self.location +'/..';</script>";
 	}	
-	private function HashPass($plaintext){
+	public function HashPass($plaintext){
 		// Mcrypt deprecated in php 7.1 - so alternative below
 		//https://coderwall.com/p/m2hkiw/php-encrypt-decrypt-generate-random-passwords-with-mcrypt
 	/*	$td = mcrypt_module_open('cast-256', '', 'ecb', $string);

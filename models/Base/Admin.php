@@ -1181,7 +1181,7 @@ abstract class Admin implements ActiveRecordInterface
     {
         $metadata->addPropertyConstraint('name', new NotNull());
         $metadata->addPropertyConstraint('name', new Length(array ('max' => 64,)));
-        $metadata->addPropertyConstraint('emailAddress', new Email());
+        $metadata->addPropertyConstraint('emailaddress', new Email());
     }
 
     /**

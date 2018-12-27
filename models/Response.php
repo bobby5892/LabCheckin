@@ -20,11 +20,10 @@ class Response{
 		$this->isSuccess = $success;
 	}
 	public function ToJSON(){
-		header('Content-Type: application/json');
 		$output = new \stdClass();
 		$output->success = $this->isSuccess;
 		$output->response = $this->response;
-		print json_encode($output,JSON_PRETTY_PRINT);
-		exit;
+		$output = json_encode($output,JSON_PRETTY_PRINT);
+		return $output;
 	}
 }

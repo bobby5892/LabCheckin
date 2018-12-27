@@ -134,11 +134,32 @@ switch ($request) {
          $content =  $loginController->LoginForm();
         }
         break;            
+      case $config['basePrefix'] . '/admin/addusers' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->addUsers();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;
+
       case $config['basePrefix'] . '/admin/editusers' :
         if($loginController->IsLoggedIn()){
           require __DIR__ . "/../controllers/adminController.php";
           $controller = new AdminController($config);
           $content =  $controller->editUsers();
+        }
+        else{
+         $content =  $loginController->LoginForm();
+        }
+        break;
+     case $config['basePrefix'] . '/admin/getusers' :
+        if($loginController->IsLoggedIn()){
+          require __DIR__ . "/../controllers/adminController.php";
+          $controller = new AdminController($config);
+          $content =  $controller->getUsers();
         }
         else{
          $content =  $loginController->LoginForm();

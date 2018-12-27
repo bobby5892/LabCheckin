@@ -5,10 +5,13 @@
     <column name="name" type="varchar" size="64" required="true" />
     <column name="emailAddress" type="varchar" size="128" required="true" />
     <column name="passwordHash" type="varchar" size="128" required="true" />
+    <unique>
+      <unique-column name="emailAddress"/>
+    </unique>
     <behavior name="validate">
             <parameter name="rule1" value="{column: name, validator: NotNull}" />
             <parameter name="rule2" value="{column: name, validator: Length, options: {max: 64}}" />
-            <parameter name="rule3" value="{column: emailAddress, validator: Email}" />
+            <parameter name="rule3" value="{column: emailaddress, validator: Email}" />
     </behavior>
   </table>
    <table name="course" phpName="Course">

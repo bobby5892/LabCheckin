@@ -80,7 +80,7 @@ class AdminController{
 			if($course->validate() && ($IsDupe == false)){
 				$course->save();
 			}
-			$response->ToJSON();
+			return $response->ToJSON();
 		
 
 		}
@@ -98,8 +98,8 @@ class AdminController{
 			
 			  array_push($output['data'], array((string) $course->GetName()));
 			}
-			print json_encode($output);
-			exit;
+			return json_encode($output);
+			
 		}
 		else{
 			$content.= "
@@ -119,9 +119,130 @@ class AdminController{
 
 /* Users */	
 	public function editUsers(){	
-		$content = "edit users";
+		if(isset($_POST['action']) && ($_POST['action'] == "delete")){
+			// To Do
+			
+			if((integer) $_POST['id'] > 1){
+				$admin = AdminQuery::create()
+				->filterById($_POST['id'])
+				->find();
+
+				// Did not find a user
+				if($admin->isEmpty()){
+					$response = new Response(false, "Did not find a user with that id");
+					return $response->ToJSON();
+				}
+				else{
+					$admin[0]->delete();
+					$response = new Response(true, "Successfully Deleted");
+					return $response->ToJSON();
+				}
+			}
+			else{
+				$response = new Response(false,"Cannot Delete Super User");
+				return $response->ToJSON();
+			}
+		}
+		else if(isset($_POST['action']) && ($_POST['action'] == "changePass")){
+			if((integer) $_POST['id'] > 0){
+				$admin = AdminQuery::create()
+				->filterById($_POST['id'])
+				->find();
+				// If there are results
+				if(!$admin->isEmpty()){
+					$loginController = new LoginController($this->config);
+					$admin[0]->setPasswordhash = $loginController->HashPass($_POST['password']);
+					if($admin[0]->validate()){
+						// only super user can edit super user
+						if(($_POST['id'] == 1) && ($_SESSION['USER']['id'] != 1)){
+							$response = new Response(false,"Unauthorized");
+							return $response->ToJSON();
+						}
+						$admin[0]->save();
+						$response = new Response(true,"Saved");
+						return $response->ToJSON();
+					}
+					else{
+						$response = new Response(false,"Bad Password");
+						return $response->ToJSON();
+					}
+				}
+				else{
+					$response = new Response(false,"Cannot find that user");
+					return $response->ToJSON();
+				}
+			}
+			else{
+				$response = new Response(false,"Cannot find that user");
+				return $response->ToJSON();
+			}
+		}
+		else{
+			$content = $this->template->PartialView("admineditusers.html");
+			return $this->template->adminContentView($content);	
+		}
+	}
+	public function addUsers(){
+		if(isset($_POST['action']) && ($_POST['action'] == "save")){
+			$user = new Admin();
+			$user->setName($_POST['firstAndLastName']);
+			$user->setemailAddress(strtolower($_POST['emailAddress']));
+			
+			$loginController = new LoginController($this->config);
+			$user->setPasswordhash($loginController->HashPass($_POST['password']));
+
+			if($_POST['password'] != $_POST['confirmPassword']){
+				$content = "<section>Password and confirm password did not match - press back and try again</section>"; 
+				return $this->template->adminContentView($content);
+			}
+			if($user->validate()){
+				// Check for duplicates
+				$admin = AdminQuery::create()
+				->filterByemailAddress($_POST['emailAddress'])
+				->find();
+				// See if it already exists
+				if($admin->IsEmpty()){
+					$content = "<section>User added Successfully</section>";
+					$user->save();
+					return $this->template->adminContentView($content);
+				}
+				else{
+					$content = "<section>Email already exists</section>"; 
+					return $this->template->adminContentView($content);
+				}
+			}
+			else{
+				$content = "<section>Invalid characters in new user - press back and try again";
+				  foreach ($user->getValidationFailures() as $failure) {
+     			   $output .= "Field ".$failure->getPropertyPath().": ".$failure->getMessage()."\n";
+    			 }
+    			 $content .= "</section";
+
+				return $this->template->adminContentView($content);
+			}
+		}
+		else{
+			$content = $this->template->PartialView("adminadduser.html");
+			return $this->template->adminContentView($content);		
+		}
+	}
+	public function getUsers(){
+		$output =[];
+		$output['data'] = [];
+		// query courses
+		$admins = AdminQuery::create()->find();
+		// stack in array
+		foreach($admins as $admin) {
 		
-		return $this->template->adminContentView($content);
+		  array_push($output['data'], array("ID" => (integer) $admin->getId(),
+		  	"Name" => (string) $admin->GetName(),
+		  	"EmailAddress" => (string) $admin->GetEmailAddress()
+		  ));
+		}
+		$output["count"] = count($output["data"]);
+		return json_encode($output);
+		
+
 	}
 
 	public function getCourses(){
@@ -189,8 +310,33 @@ class AdminController{
 	}
 /* Search */	
 	public function Search(){	
-		$content = "Not implemented";
+		$courses = json_decode($this->getCourses());
+		//print var_dump($courses);
+		//$courses["data"]["id"]
+		$labVisits = LabVisitQuery::create()
+		->filterBystudentid($_POST['searchQuery'])
+		->find();
+		$content = $this->template->PartialView("adminsearch.html");
 		
+		if($labVisits->IsEmpty()){
+			$content .= "No Lab Visits for " . $_POST['searchQuery'];
+		}
+		else{
+			foreach($labVisits as $labvisit){
+				$content .= "<h3>for " . $_POST['searchQuery'] . "</h3>";
+				$content .= "<table><tr><th>Time In</th><th>Time Out</th><th>Course</th></tr>";
+				$courseName = "";
+				foreach($courses->data as $course){
+					if($course->id == $labvisit->getCourseid()){
+						$courseName = $course->name;
+					}
+				}
+				$content .= "<tr><td>" . $labvisit->getCheckin()->format('Y-m-d H:i:s') . "</td><td>" . $labvisit->getCheckout()->format('Y-m-d H:i:s') ."</td><td>" . $courseName ."</td></tr>";
+			}
+			$content .= "</table>";
+		}		
+
+		$content .= "</section>";
 		return $this->template->adminContentView($content);
 	}
 

@@ -146,13 +146,16 @@ try{
 	$controller = new CheckinController($config);
 	// will come from post
 	$_POST['studentid'] ="L00000001";
+	
 	$response = json_decode($controller->SaveCheckOut());
+
 	rassert($response->success,"Checkout - checked out");
 
 	//Cleanup
 	$L00labVisits = LabVisitQuery::create()
 	->filterByStudentid("L00000001")
 	->find();
+
 	foreach($L00labVisits as $visit){
 		$visit->delete();
 	}

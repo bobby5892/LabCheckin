@@ -85,20 +85,38 @@ class DataViewer{
 		let output = "<canvas id='barChart'></canvas>";
 		document.getElementById(this.config.dataSource).innerHTML += output;
 
-		let chartDataSet = [];
+		
 		let chartLabels = []
+
+		let chartDataSet = [];
+		//chartDataSet.label =  'Dataset 1';
+		//chartDataSet.Data = [];
 		// now build chart data for chart.js
 		for(let i=0; i<this.Data.length;i++){
 			// this is [x,y]
-			chartDataSet.push(this.Data[i].count);
+			//chartDataSet.Data.push(this.Data[i].count);
 			chartLabels.push(this.Data[i].course);
 		}
+
+		// Creating 1 data set
+		let dataTemp = [];
+		for(let i=0; i<this.Data.length;i++){
+			// this is [x,y]
+			dataTemp.push(this.Data[i].count);
+		}
+		chartDataSet.push({
+			"label" : "Lab Visitors",
+			"backgroundColor": "#BF3F3F",
+			"data" : dataTemp
+		});
+		console.log("DATA SET: " + chartDataSet);
+
 
 		// Build data to spec https://www.chartjs.org/docs/latest/axes/cartesian/category.html
 
 		let chartData = {
 			labels: chartLabels,
-			datasets: [{chartDataSet}]
+			datasets: chartDataSet
 		};
 
 		console.log("chartData" + JSON.stringify(chartData));
@@ -116,9 +134,15 @@ class DataViewer{
 		        title: {
 	         	   display: true,
 	            	text: 'LAB USAGE'
-        		}
+        		},
+        		 scales: {
+			        xAxes: [{
+			            ticks: {
+			                beginAtZero: true
+			            }
+			        }]
+			    }
 		    },
-		   
 		});
 	}
 }

@@ -28,7 +28,96 @@ class Labcheckin {
 					labcheckin.hideAlerts();
 			});
 		}
+		// Check for edit users table
+		this.editUsersBox = document.getElementById("editUsers");
+		if(this.editUsersBox != null){
+			this.buildUsersBox();
+			console.log("buliding user box");
+		}
+		
 
+	}
+	editBindbuttons(){
+		// check for buttons
+		console.log("btns");
+		if(document.querySelector(".editUsers-btnDelete") !== null){
+			
+			let buttons = document.getElementsByClassName('editUsers-btnDelete');
+			for(let i=0; i< buttons.length;i++){
+			console.log("btn");	
+				buttons[i].addEventListener('click', (event) => {
+					this.editUsersDelete(event); });
+			}	
+		}
+
+		if(document.querySelector(".editUsers-btnChangePass") !== null){
+			let buttons = document.getElementsByClassName('editUsers-btnChangePass');			
+			for(let i=0; i< buttons.length;i++){
+				buttons[i].addEventListener('click', (event) => {
+					console.log(event);
+					this.editUsersChangePass(event); });
+			}	
+
+		}
+	}
+	editUsersDelete(event){
+		if (confirm("Are you sure you want to delete user?")) {
+			console.log("Delete" + event.srcElement.dataset.id);
+			let url = location.protocol + '//' + location.hostname + "/" + this.config.base + "admin/editusers";
+			fetch(url,{
+					method: "POST",
+					headers: {'Content-Type':'application/x-www-form-urlencoded'},
+					body: "action=delete" + "&id=" + event.srcElement.dataset.id
+				}).then(res => res.json())
+				.then(response => {
+					this.buildUsersBox();
+					alert(response.response);
+
+				}
+				);
+		}
+	}
+	editUsersChangePass(event){
+		let newpass = window.prompt("Enter the new password");
+		console.log("change password" + event.srcElement.dataset.id + " to: " + newpass);
+		if(newpass.length > 0){
+			let url = location.protocol + '//' + location.hostname + "/" + this.config.base + "admin/editusers";
+			fetch(url,{
+					method: "POST",
+					headers: {'Content-Type':'application/x-www-form-urlencoded'},
+					body: "action=changePass&password=" + newpass + "&id=" + event.srcElement.dataset.id
+				}).then(res => res.json())
+				.then(response => {
+					alert(response.response);
+				}
+				);
+		}
+	}
+	buildUsersBox(){
+		let url = location.protocol + '//' + location.hostname + "/" + this.config.base + "admin/getusers";
+		fetch(url,{
+				method: "POST",
+				headers: {'Content-Type':'application/x-www-form-urlencoded'}
+			}).then(res => res.json())
+			.then(response => {
+				let output = "<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Options</th></tr>";
+				for(let i=0; i<response.data.length;i++){
+					output += "<tr><td>" + response.data[i]["ID"] + "</td>";
+					output += "<td>" + response.data[i]["Name"] + "</td>";
+					output += "<td>" + response.data[i]["EmailAddress"] + "</td>";
+					if(i > 0){
+						output += "<td><button data-id='"+ response.data[i]["ID"] +"' class='editUsers-btnDelete'>Delete</button>&nbsp;";
+						output += "<button data-id='"+ response.data[i]["ID"] +"' class='editUsers-btnChangePass'>Change Pass</button></td></tr>";
+					}
+					else{
+						output += "<td><button data-id='"+ response.data[i]["ID"] +"' class='editUsers-btnChangePass'>Change Pass</button></td></tr>";
+					}
+				}
+				output += "</table";
+				this.editUsersBox.innerHTML = output;
+				this.editBindbuttons();
+			}
+			);
 	}
 	classAddSubmit(e){
 		let className = document.getElementsByClassName('class-add-className')[0];
@@ -57,15 +146,9 @@ class Labcheckin {
 					labcheckin.showError(response.response);
 					console.log("false");
 				}
-				
-				
 				console.log('Success:', JSON.stringify(response))
-			}
-
-			);
-			
+			});
 		}
-		
 	}
 	showError(error){
 		if(this.canShowErrors){

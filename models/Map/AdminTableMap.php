@@ -163,7 +163,7 @@ class AdminTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'validate' => array('rule1' => array ('column' => 'name','validator' => 'NotNull',), 'rule2' => array ('column' => 'name','validator' => 'Length','options' => array ('max' => 64,),), 'rule3' => array ('column' => 'emailAddress','validator' => 'Email',), ),
+            'validate' => array('rule1' => array ('column' => 'name','validator' => 'NotNull',), 'rule2' => array ('column' => 'name','validator' => 'Length','options' => array ('max' => 64,),), 'rule3' => array ('column' => 'emailaddress','validator' => 'Email',), ),
         );
     } // getBehaviors()
 

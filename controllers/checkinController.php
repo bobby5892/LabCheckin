@@ -32,15 +32,13 @@ class CheckinController{
 		return $this->template->publicContentView($content);
 	}
 	public function ValidateL(){
+		$response = new Response(false,"Successfully Validated");
 		if(isset($_POST['studentid'])){
 			$labVisit = new LabVisit();
 			$labVisit->setStudentid($_POST['studentid']);
 
 			if($labVisit->validate()){
-				$response = new Response(
-					"true",
-					"Successfully Validated"
-				);
+				$response = new Response("true","Successfully Validated");
 			}
 			else{
 				$validationError = "";
@@ -53,9 +51,9 @@ class CheckinController{
 					$validationError
 				);	
 			}
-			print $response->ToJSON();
+		
 		}
-		exit;
+		return $response->ToJSON();
 
 	}
 	public function IsCheckedIn(){
@@ -86,23 +84,26 @@ class CheckinController{
 			);
 			array_push($courseList,$temp);
 		}
-		print json_encode($courseList);
-		exit;
+		return json_encode($courseList);
 	}
 	public function SaveCheckOut(){
 		$checkins = $this->getCheckinsForStudent($_POST['studentid']);
-
+		$found = false;
 		foreach ($checkins as $checkin){
 			// If its not been checked out but it is checked in
 			if(is_null($checkin->getCheckout()) && $this->checkedIn($checkin)){
 				$checkin->setCheckout(new DateTime("now"));
 				$checkin->save();
-				return (new Response(true, "Marked as checked out"))->ToJSON();
-				
-				
+				$response = new Response(true, "Marked as checked out");
+			
+				$found = true;
 			}
 		}
-		return (new Response(false, "Did not find checkin"))->ToJSON();
+		if(!$found){
+			$response = new Response(false, "Did not find checkin");
+			
+		}
+		return $response->ToJSON();
 	}
 	// Save Checkin
 	public function SaveCheckIn(){
@@ -124,6 +125,7 @@ class CheckinController{
 				$response = new Response($labVisit->validate(),"Saved checkin");
 
 				$labVisit->save();
+				return $response->ToJSON();
 			}
 			else{
 				$validationError = "";
@@ -131,13 +133,14 @@ class CheckinController{
 					$validationError .="<BR>". $failure->getMessage();
 				}
 				$response = new Response($labVisit->validate(),$validationError);
+				return $response->ToJSON();
 			}
 		}
 		catch(Exception $e){
 				$response = new Response("false","Invalid course ID");
 		}
 
-		$response->ToJSON();
+		
 		
 	}
 	// Public so accessible for testing
