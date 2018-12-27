@@ -145,13 +145,17 @@ class AdminController{
 		}
 		else if(isset($_POST['action']) && ($_POST['action'] == "changePass")){
 			if((integer) $_POST['id'] > 0){
+				// clean up password
+				$_POST['password'] = str_replace("\r", "",$_POST['password']);
+				$_POST['password'] = str_replace("\n", "", $_POST['password']);
 				$admin = AdminQuery::create()
 				->filterById($_POST['id'])
 				->find();
+				
 				// If there are results
 				if(!$admin->isEmpty()){
 					$loginController = new LoginController($this->config);
-					$admin[0]->setPasswordhash = $loginController->HashPass($_POST['password']);
+					$admin[0]->setPasswordhash($loginController->HashPass($_POST['password']));
 					if($admin[0]->validate()){
 						// only super user can edit super user
 						if(($_POST['id'] == 1) && ($_SESSION['USER']['id'] != 1)){
