@@ -76,7 +76,8 @@ class CheckinController{
 	}
 	public function GetCourses(){
 		$courseList = [];
-		$courses = CourseQuery::create()->find();
+		$courses = CourseQuery::create()
+		->orderByName()->find();
 		foreach ($courses as $course){
 			$temp = array(
 				"id" => $course->getId(),
